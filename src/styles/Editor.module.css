@@ -1,0 +1,10 @@
+
+.editorBox {
+    display: flex;
+    /*justify-content: space-around;*/
+    overflow-x: scroll;
+  }
+
+  .editorBox::-webkit-scrollbar {
+    display: none;
+  }
