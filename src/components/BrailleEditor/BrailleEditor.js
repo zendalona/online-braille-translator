@@ -15,7 +15,7 @@ function BrailleEditor() {
      
        
      }, [braille])
-    return (
+    return (<>
         <div className="col-12 col-sm-6 px-2">
             
                 <div className={`${styles.brailleEditor} pb-1`}>
@@ -23,11 +23,11 @@ function BrailleEditor() {
                     <i className="fas fa-download me-3"></i>
                 </a></div>
                 <Slate editor={brailleEditor} value={braille} onChange={(value)=>handleChange(value)} key={JSON.stringify(braille)}>
-                    <Editable className={`${styles.textField} mx-3 p-1`} />
+                    <Editable className={`${styles.textField} mx-3 p-1 mb-5`} />
                 </Slate>
                 </div>
            
-        </div>
+        </div></>
     )
 }
 

@@ -21,6 +21,7 @@ useEffect(() => {
 
 
     return (
+        <>
         <div className="col-12 col-sm-6 px-2">
             <div className={styles.textEditor}>
                 <div className={styles.editorIcon}><a href="#" title="Download">
@@ -38,7 +39,7 @@ useEffect(() => {
                     </select></div><button className="btn btn-primary btn-sm" type="button" onClick={()=>setBraille(text)}>Translate</button>
                 </div>
             </div>
-        </div>
+        </div></>
     )
 }
 

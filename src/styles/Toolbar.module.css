@@ -4,6 +4,9 @@
     box-shadow: 0px 4px 4px #00000022;
     display: flex;
     align-items: center;
+    position: sticky;
+    top: 34px;
+    z-index: 1;
 }
 .tools {
     height: 41px;
