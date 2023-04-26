@@ -7,6 +7,7 @@
     /* position: sticky;
     top: 34px;
     z-index: 1; */
+    position: relative;
 }
 .tools {
     height: 41px;
@@ -24,3 +25,21 @@
     display: flex;
     gap: 11px;
   }
+
+  .fontColor {
+    width: 14px;
+    
+    height: 4px;
+  }
+
+  .colorPicker{
+    position: absolute;
+    z-index: 10;
+     top: 55px;
+     left: 100px;
+    
+  }
+
+  
+  
+  
