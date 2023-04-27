@@ -12,7 +12,7 @@ function BrailleEditor() {
 
     }
     useEffect(() => {
-        console.log(braille);
+       // console.log(braille);
 
 
     }, [braille])
@@ -20,7 +20,7 @@ function BrailleEditor() {
         <div className="col-12 col-sm-6 px-2">
 
             <div className={`${styles.brailleEditor} pb-1`}>
-                <Toolbar />
+                {/* <Toolbar /> */}
                 {/* <div className={styles.editorIcon}><a href="#" title="Download">
                     <i className="fas fa-download me-3"></i>
                 </a></div> */}
