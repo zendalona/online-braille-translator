@@ -7,8 +7,8 @@ import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 function TextEditor() {
     const textEditor = useMemo(() => withHistory(withReact(createEditor())), [])
+    const [showColorPicker, setShowColorPicker] = useState(false)
 
-   
 
     const { text, setText, setBraille } = useContext(editorsContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
@@ -16,20 +16,20 @@ function TextEditor() {
 
 
     const handleChange = (value) => {
-         setText(value)
+        setText(value)
 
     }
     const Leaf = ({ attributes, children, leaf }) => {
         if (leaf.color) {
-           return <span {...attributes} style={{ color: leaf.color }}>{children}</span>
+            return <span {...attributes} style={{ color: leaf.color }}>{children}</span>
         }
-        else{
+        else {
             return <span {...attributes}>{children}</span>
         }
 
 
 
-       
+
     }
 
 
@@ -50,8 +50,9 @@ function TextEditor() {
 
 
                     <Slate editor={textEditor} value={text} onChange={(value) => handleChange(value)}>
-                        <Toolbar   />
+                        <Toolbar showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker} />
                         <Editable
+                            onClick={() => showColorPicker ? setShowColorPicker(false) : null}
                             // renderElement={renderElement}
                             renderLeaf={renderLeaf}
                             placeholder="Enter some rich text…"

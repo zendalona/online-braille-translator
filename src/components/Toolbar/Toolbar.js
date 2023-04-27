@@ -4,12 +4,12 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-function Toolbar() {
+function Toolbar({showColorPicker, setShowColorPicker}) {
   const [fontColor, setFontColor] = useState("#000000")
   const editor = useSlate();
 
   //console.log(editor);
-  const [showColorPicker, setShowColorPicker] = useState(false)
+  
 
   const fontColorChange = (color) => {
     setFontColor(color.hex)
@@ -17,6 +17,7 @@ function Toolbar() {
     Editor.addMark(editor, 'color', color.hex);
 
   }
+  
 
 
   useEffect(() => {
@@ -27,20 +28,15 @@ function Toolbar() {
       console.log(selection.rangeCount);
       const range = selection.getRangeAt(0);
 
-      const nodes = [];
+
+      const styles = [];
       let currentNode = range.startContainer.parentNode.parentNode.parentNode;
 
       while (currentNode !== range.endContainer.parentNode.parentNode.parentNode.nextSibling) {
 
-        nodes.push(currentNode);
-        currentNode = currentNode.nextSibling;
 
-      }
-      console.log(nodes.length);
-      const styles = [];
-      for (let i = 0; i < nodes.length; i++) {
         const stylesObj = {};
-        const nodeStyles = window.getComputedStyle(nodes[i].childNodes[0]);
+        const nodeStyles = window.getComputedStyle(currentNode.childNodes[0]);
         stylesObj.color = nodeStyles.getPropertyValue('color');
         console.log(stylesObj.color);
         if (styles.length != 0) {
@@ -54,7 +50,12 @@ function Toolbar() {
         } else {
           styles.push(stylesObj);
         }
+        currentNode = currentNode.nextSibling;
+
       }
+
+
+
       if (same) {
         setFontColor(styles[0].color)
 
