@@ -1,11 +1,11 @@
 import { editorsContext } from '@/pages'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { createEditor, Editor, Node, path, Path, Range } from 'slate'
+import { createEditor, Editor, Node, path, Path, Range, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
 import { Editable, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
-function TextEditor() {
+function TextEditor({ brailleEditor}) {
     const textEditor = useMemo(() => withHistory(withReact(createEditor())), [])
     const [showColorPicker, setShowColorPicker] = useState(false)
 
@@ -19,6 +19,14 @@ function TextEditor() {
         setText(value)
 
     }
+
+    const handleClick=useCallback(() => {
+        console.log(text[0].children[0].text);
+        //Transforms.insertText(brailleEditor, text[0].children[0].text,{
+           // at: [0],
+          //});
+      }, [brailleEditor, text]);
+
     const Leaf = ({ attributes, children, leaf }) => {
         if (leaf.color) {
             return <span {...attributes} style={{ color: leaf.color }}>{children}</span>
@@ -65,7 +73,7 @@ function TextEditor() {
                             <option value="" defaultValue>Select a language</option>
                             <option value="12">English</option>
                             <option value="13">Malayalam</option>
-                        </select></div><button className="btn btn-primary btn-sm" type="button" onClick={() => setBraille(text)}>Translate</button>
+                        </select></div><button className="btn btn-primary btn-sm" type="button" onClick={handleClick}>Translate</button>
                     </div>
                 </div>
             </div></>

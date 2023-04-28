@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { createEditor } from 'slate'
+import { withHistory } from 'slate-history'
+import { withReact } from 'slate-react'
 import styles from '../../styles/Editor.module.css'
 import BrailleEditor from '../BrailleEditor/BrailleEditor'
 import TextEditor from '../TextEditor/TextEditor'
 function Editor() {
     const [component, setComponent] = useState(null)
+    const brailleEditor = useMemo(() => withHistory(withReact(createEditor())), [])
     useEffect(() => {
 
-        setComponent([<TextEditor />, <BrailleEditor />])
+        setComponent([<TextEditor brailleEditor={brailleEditor} />, <BrailleEditor brailleEditor={brailleEditor} />])
 
     }, [])
 
