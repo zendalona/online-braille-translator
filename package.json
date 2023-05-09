@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
+    "liblouis": "^0.4.0",
     "next": "13.3.1",
+    "promise": "^8.3.0",
     "react": "18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "18.2.0",

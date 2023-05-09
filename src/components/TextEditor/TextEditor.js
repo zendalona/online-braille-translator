@@ -2,12 +2,17 @@ import { editorsContext } from '@/pages'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { createEditor, Editor, Node, path, Path, Range, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
+import axios from 'axios'
+
 import { Editable, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
-function TextEditor({ brailleEditor}) {
+
+function TextEditor({ brailleEditor }) {
     const textEditor = useMemo(() => withHistory(withReact(createEditor())), [])
     const [showColorPicker, setShowColorPicker] = useState(false)
+    const [language, setLanguage] = useState("")
+    const [isDisabled, setIsDisabled] = useState(true)
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
@@ -20,12 +25,33 @@ function TextEditor({ brailleEditor}) {
 
     }
 
-    const handleClick=useCallback(() => {
-        console.log(text[0].children[0].text);
-        //Transforms.insertText(brailleEditor, text[0].children[0].text,{
-           // at: [0],
-          //});
-      }, [brailleEditor, text]);
+    const handleClick = () => {
+
+        axios.post('/api/translate', { text: text, language: language }).then(({data}) => {
+            console.log(data);
+            
+            Transforms.insertText(brailleEditor, data.result, {
+                at: [0]
+            })
+
+
+        })
+
+        // console.log(text);
+        // const plainText = text.map(n => Node.string(n)).join('\n')
+        // console.log(plainText);
+
+    };
+
+    const selectLanguage = (value) => {
+        if (value === "")
+            setIsDisabled(true)
+        else
+            setIsDisabled(false)
+
+        setLanguage(value)
+        console.log(value);
+    }
 
     const Leaf = ({ attributes, children, leaf }) => {
         if (leaf.color) {
@@ -69,11 +95,11 @@ function TextEditor({ brailleEditor}) {
                             className={`${styles.textField} mx-3 p-1`} />
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
-                        <div><select >
+                        <div><select onChange={(event) => selectLanguage(event.target.value)}>
                             <option value="" defaultValue>Select a language</option>
-                            <option value="12">English</option>
-                            <option value="13">Malayalam</option>
-                        </select></div><button className="btn btn-primary btn-sm" type="button" onClick={handleClick}>Translate</button>
+                            <option value="English">English</option>
+                            <option value="Malayalam">Malayalam</option>
+                        </select></div><button className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
                 </div>
             </div></>
