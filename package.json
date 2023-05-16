@@ -22,7 +22,9 @@
     "react-dom": "18.2.0",
     "slate": "^0.94.0",
     "slate-history": "^0.93.0",
-    "slate-react": "^0.94.0"
+    "slate-react": "^0.94.0",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
