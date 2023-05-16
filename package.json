@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "nodemon server.js",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
     "bootstrap": "^5.2.3",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
+    "express": "^4.18.2",
     "liblouis": "^0.4.0",
     "next": "13.3.1",
     "promise": "^8.3.0",
@@ -22,5 +23,8 @@
     "slate": "^0.94.0",
     "slate-history": "^0.93.0",
     "slate-react": "^0.94.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
