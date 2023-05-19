@@ -1,4 +1,4 @@
-import { editorsContext } from '@/pages'
+import { editorsContext, socketContext } from '@/pages'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { createEditor, Editor, Node, path, Path, Range, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
@@ -8,6 +8,8 @@ import { Editable, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 
+
+
 function TextEditor({ brailleEditor }) {
     const textEditor = useMemo(() => withHistory(withReact(createEditor())), [])
     const [showColorPicker, setShowColorPicker] = useState(false)
@@ -16,8 +18,10 @@ function TextEditor({ brailleEditor }) {
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
+    const socket=useContext(socketContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
+    
 
 
     const handleChange = (value) => {
@@ -26,16 +30,29 @@ function TextEditor({ brailleEditor }) {
     }
 
     const handleClick = () => {
+        const plainText = text.map(n => Node.string(n)).join('')
+        
+        socket.emit('translate', {text:plainText,language:language})
 
-        axios.post('/api/translate', { text: text, language: language }).then(({data}) => {
-            console.log(data);
-            
-            Transforms.insertText(brailleEditor, data.result, {
-                at: [0]
-            })
-
-
+        socket.on('result',(brailleText)=>{
+            Transforms.insertText(brailleEditor, brailleText, {
+                        at: [0]
+                     })
         })
+
+        
+
+
+
+
+       
+        // axios.post('/api/translate', { text: text, language: language }).then(({data}) => {
+        //     console.log(data);
+
+        //     
+
+
+        // })
 
         // console.log(text);
         // const plainText = text.map(n => Node.string(n)).join('\n')

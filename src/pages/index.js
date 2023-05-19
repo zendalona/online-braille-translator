@@ -2,15 +2,26 @@
 import Editor from '@/components/Editor/Editor'
 import Toolbar from '@/components/Toolbar/Toolbar'
 import Head from 'next/head'
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client'
 
 
 export const editorsContext = createContext()
+export const socketContext = createContext()
 
 export default function Home() {
   const [text, setText] = useState([{ type: "paragraph", children: [{ text: "" }] }])
   const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "" }] }])
   const [active, setActive] = useState('')
+  const socket = useRef()
+
+  useEffect(() => {
+    socket.current = io({forceNew:true});
+
+    return () => {
+      socket.current.disconnect()
+    }
+  }, [])
 
 
   return (
@@ -21,10 +32,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <editorsContext.Provider value={{ braille, setBraille, text, setText, active }}>
-        {/* <Toolbar/> */}
-        <Editor />
-      </editorsContext.Provider>
+      <socketContext.Provider value={socket.current}>
+        <editorsContext.Provider value={{ braille, setBraille, text, setText, active }}>
+          {/* <Toolbar/> */}
+          <Editor />
+        </editorsContext.Provider>
+      </socketContext.Provider>
     </>
   )
 }

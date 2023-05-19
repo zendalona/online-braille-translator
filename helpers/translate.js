@@ -1,17 +1,21 @@
-const { Node }=require("slate")
-const liblouis=require('liblouis');
-liblouis.enableOnDemandTableLoading();
+const { PythonShell } = require('python-shell')
 
-module.exports={
-    textToBraille: (data)=>{
-        return new Promise((resolve, reject) => {
-            const plainText = data.text.map(n => Node.string(n)).join('\n')
-            if (data.language === 'English') {
-                var brailleText = liblouis.translateString("tables/unicode.dis,tables/en-us-g1.ctb", plainText)
-                resolve(brailleText)
-            }
-           else
-           reject()
-        })
-    }
+module.exports = {
+  textToBraille: (data, callback) => {
+    const pyshell = new PythonShell('python/textToBraille.py');
+
+    const newData = JSON.stringify(data);
+    //console.log(newData);
+    pyshell.send(newData);
+    pyshell.on('message', function (message) {
+      // received a message sent from the Python script
+      callback(message)
+    });
+    pyshell.end(function (err, code, signal) {
+      if (err) throw err;
+      console.log('The exit code was: ' + code);
+      console.log('The exit signal was: ' + signal);
+      console.log('finished');
+    });
+  }
 }
