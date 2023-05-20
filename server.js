@@ -29,7 +29,7 @@ app.prepare().then(() => {
         socket.on('translate', (data) => {
            //console.log(data);
             textToBraille(data,(brailleText)=>{
-                //console.log(brailleText);
+                console.log("callback");
                 socket.emit('result',brailleText)  //callback
             })
 

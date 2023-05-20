@@ -18,10 +18,10 @@ function TextEditor({ brailleEditor }) {
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
-    const socket=useContext(socketContext)
+    const socket = useContext(socketContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
-    
+
 
 
     const handleChange = (value) => {
@@ -30,22 +30,29 @@ function TextEditor({ brailleEditor }) {
     }
 
     const handleClick = () => {
-        const plainText = text.map(n => Node.string(n)).join('')
-        
-        socket.emit('translate', {text:plainText,language:language})
+        const { selection } = textEditor
+        //console.log(selection);
+        const check = Range.isCollapsed(selection);
+        console.log(check);
 
-        socket.on('result',(brailleText)=>{
-            Transforms.insertText(brailleEditor, brailleText, {
-                        at: [0]
-                     })
-        })
-
-        
-
-
+        if (check) {
+            var plainText = text.map(n => Node.string(n)).join('')
+        }
+        else {
+            var plainText = Editor.string(textEditor, selection)
+            console.log(plainText);
+        }
 
 
-       
+        socket.emit('translate', { text: plainText, language: language })
+
+
+
+
+
+
+
+
         // axios.post('/api/translate', { text: text, language: language }).then(({data}) => {
         //     console.log(data);
 
@@ -59,6 +66,26 @@ function TextEditor({ brailleEditor }) {
         // console.log(plainText);
 
     };
+    const brailleResult = (brailleText) => {
+        const { selection } = brailleEditor
+        console.log(selection);
+        //console.log(Editor.end(brailleEditor, []));
+        Transforms.insertText(brailleEditor, brailleText, {
+            at: selection ?  selection.anchor : Editor.end(brailleEditor, [])
+        })
+    }
+
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('result', brailleResult)
+
+            return () => {
+                socket.off('result', brailleResult)
+            }
+        }
+    }, [socket])
+
 
     const selectLanguage = (value) => {
         if (value === "")
