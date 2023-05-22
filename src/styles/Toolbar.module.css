@@ -21,12 +21,12 @@
   }
 
 .toolContainer {
-    border-right: 1px solid var(--fcolor);
+    border-right: 1px solid rgb(184, 191, 197);
     display: flex;
     gap: 11px;
   }
 
-  .fontColor {
+  .colorIndicate {
     width: 14px;
     
     height: 4px;

@@ -4,12 +4,13 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-function Toolbar({showColorPicker, setShowColorPicker}) {
+
+function Toolbar({ showColorPicker, setShowColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
   const editor = useSlate();
 
   //console.log(editor);
-  
+
 
   const fontColorChange = (color) => {
     setFontColor(color.hex)
@@ -17,7 +18,7 @@ function Toolbar({showColorPicker, setShowColorPicker}) {
     Editor.addMark(editor, 'color', color.hex);
 
   }
-  
+
 
 
   useEffect(() => {
@@ -81,17 +82,27 @@ function Toolbar({showColorPicker, setShowColorPicker}) {
 
 
       <div className={`${styles.tools} px-3 col-12`}>
-        <div className={`${styles.toolContainer} pe-1`}>
+        <div className={`${styles.toolContainer} pe-2`}>
+          <div><a href="#" title="New"><i className="fas fa-file"></i></a></div>
           <div><a href="#" title="Open"><i className="fa fa-folder-open"></i></a></div>
+          <div><a href="#" title="Download"><i className="fas fa-download"></i></a></div>
+
+        </div>
+        <div className={`${styles.toolContainer} pe-2`}>
           <div><a href="#" title="Undo"><i className="fas fa-undo"></i></a></div>
           <div><a href="#" title="Redo"><i className="fas fa-redo"></i></a></div>
         </div>
-        <div className={`${styles.toolContainer} pe-1`}>
-          <div><a onClick={() => setShowColorPicker(!showColorPicker)} title="font"><i className="fas fa-font">
-            <div className={styles.fontColor} style={{ background: fontColor }}></div>
+
+        <div className={`${styles.toolContainer} pe-2`}>
+          <div><a onClick={() => setShowColorPicker(!showColorPicker)} title="font color"><i className="fas fa-font">
+            <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
 
 
           </i></a></div>
+          <div><a  title="highlight"><i className="fas fa-highlighter">
+            <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
+          </i></a></div>
+
         </div>
 
       </div>
