@@ -128,7 +128,7 @@ function TextEditor({ brailleEditor }) {
 
 
                     <Slate editor={textEditor} value={text} onChange={(value) => handleChange(value)}>
-                        <Toolbar showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker} />
+                        <Toolbar state={text} showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker} />
                         <Editable
                             onClick={() => showColorPicker ? setShowColorPicker(false) : null}
                             // renderElement={renderElement}

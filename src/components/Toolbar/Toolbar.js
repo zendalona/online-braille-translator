@@ -4,9 +4,9 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-import { newClick } from '@/handlers/handler';
+import { downloadClick, newClick } from '@/handlers/handler';
 
-function Toolbar({ showColorPicker, setShowColorPicker }) {
+function Toolbar({state, showColorPicker, setShowColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
   const editor = useSlate();
 
@@ -86,7 +86,7 @@ function Toolbar({ showColorPicker, setShowColorPicker }) {
         <div className={`${styles.toolContainer} pe-2`}>
           <div><a onClick={()=>{ newClick(editor)}} title="New"><i className="fas fa-file"></i></a></div>
           <div><a href="#" title="Open"><i className="fa fa-folder-open"></i></a></div>
-          <div><a href="#" title="Download"><i className="fas fa-download"></i></a></div>
+          <div><a onClick={()=>{downloadClick(state)}} title="Download"><i className="fas fa-download"></i></a></div>
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>

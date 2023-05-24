@@ -37,7 +37,7 @@ function BrailleEditor({ brailleEditor}) {
                     <i className="fas fa-download me-3"></i>
                 </a></div> */}
                 <Slate editor={brailleEditor} value={braille} onChange={(value) => handleChange(value)} >
-                <Toolbar showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker}/>
+                <Toolbar state={braille} showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker}/>
                 <Editable
                             onClick={() => showColorPicker ? setShowColorPicker(false) : null}
                             // renderElement={renderElement}
