@@ -5,9 +5,11 @@ import { ChromePicker } from 'react-color';
 import { Editor } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
+import FileUpload from '../FileUpload/FileUpload';
 
-function Toolbar({state, showColorPicker, setShowColorPicker }) {
+function Toolbar({ state, showColorPicker, setShowColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
+  const [showFileUpload, setShowFileUpload] = useState(false)
   const editor = useSlate();
 
   //console.log(editor);
@@ -84,9 +86,9 @@ function Toolbar({state, showColorPicker, setShowColorPicker }) {
 
       <div className={`${styles.tools} px-3 col-12`}>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={()=>{ newClick(editor)}} title="New"><i className="fas fa-file"></i></a></div>
-          <div><a href="#" title="Open"><i className="fa fa-folder-open"></i></a></div>
-          <div><a onClick={()=>{downloadClick(state)}} title="Download"><i className="fas fa-download"></i></a></div>
+          <div><a onClick={() => { newClick(editor) }} title="New"><i className="fas fa-file"></i></a></div>
+          <div><a onClick={() => setShowFileUpload((previous) => !previous)} title="Open"><i className="fa fa-folder-open"></i></a></div>
+          <div><a onClick={() => { downloadClick(state) }} title="Download"><i className="fas fa-download"></i></a></div>
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
@@ -100,7 +102,7 @@ function Toolbar({state, showColorPicker, setShowColorPicker }) {
 
 
           </i></a></div>
-          <div><a  title="highlight"><i className="fas fa-highlighter">
+          <div><a title="highlight"><i className="fas fa-highlighter">
             <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
           </i></a></div>
 
@@ -108,6 +110,7 @@ function Toolbar({state, showColorPicker, setShowColorPicker }) {
 
       </div>
       {showColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color)} /> </div>}
+      {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
     </div>
   )
 }

@@ -1,0 +1,44 @@
+.outerBox {
+    position: fixed;
+    /* width: 100vw;
+    height: 100vh; */
+    background: rgba(0,0,0,0.65);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .innerBox {
+    /* position: relative;; */
+    height: 50%;
+    background: #ffffff;
+    z-index: 1000;
+  }
+
+  .innerBoxHeader {
+    display: flex;
+    justify-content: end;
+    height: 13%;
+    align-items: center;
+  }
+
+
+.fileSelect {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 60%;
+    border: dashed;
+  }
+
+
+.innerBoxFooter {
+    display: flex;
+    /*height: 10%;*/
+    justify-content: center;
+  }
