@@ -10,6 +10,8 @@ const { Node } = require('slate');
 const path = require('path');
 const fs = require('fs');
 const { downloadAction } = require('./helpers/download');
+var fileUpload = require('express-fileupload');
+
 
 
 
@@ -31,7 +33,8 @@ app.prepare().then(() => {
     }
     fs.mkdirSync(path.join(__dirname, 'temp'), (err) => { if (err) throw err; })
     const temp = path.join(__dirname, 'temp');
-    server.use(express.json({limit: '50mb'}));
+    server.use(express.json({ limit: '50mb' }));
+    server.use(fileUpload())
     const httpServer = http.createServer(server);
     const io = socketIO(httpServer);
 
@@ -80,6 +83,21 @@ app.prepare().then(() => {
 
 
     });
+
+    server.post('/api/upload', (req, res) => {
+        console.log(req.files.file);
+        if (!req.files || !req.files.file) {
+            console.log("no file");
+        }
+        else {
+            const file = req.files.file;
+            const data=file.data.toString('utf8')
+            res.json(data)
+            
+            
+        }
+
+    })
 
 
     server.all('*', (req, res) => {
