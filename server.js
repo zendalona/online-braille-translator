@@ -9,7 +9,7 @@ const { textToBraille } = require('./helpers/translate');
 const { Node } = require('slate');
 const path = require('path');
 const fs = require('fs');
-const { downloadAction } = require('./helpers/download');
+
 var fileUpload = require('express-fileupload');
 
 
@@ -27,12 +27,7 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
     const server = express();
 
-    if (fs.existsSync(__dirname + '/temp')) {
-        //console.log("exit");
-        fs.rmSync(__dirname + '/temp', { recursive: true });
-    }
-    fs.mkdirSync(path.join(__dirname, 'temp'), (err) => { if (err) throw err; })
-    const temp = path.join(__dirname, 'temp');
+   
     server.use(express.json({ limit: '50mb' }));
     server.use(fileUpload())
     const httpServer = http.createServer(server);
@@ -60,29 +55,7 @@ app.prepare().then(() => {
 
     //server.use(bodyParser.json());
 
-    server.post('/api/download', (req, res) => {
-        downloadAction(req.body, temp).then((filePath, fileName) => {
-            res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
-            res.setHeader('Content-type', 'text/plain');
-            res.download(filePath, fileName, (err) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log("here");
-                fs.unlink(filePath, (err) => {
-                    if (err)
-                        console.log(err);
-                })
-
-
-            })
-        })
-
-
-
-
-
-    });
+    
 
     server.post('/api/upload', (req, res) => {
         console.log(req.files.file);
