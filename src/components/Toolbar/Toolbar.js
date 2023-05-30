@@ -7,8 +7,9 @@ import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
-function Toolbar({ state, showColorPicker, setShowColorPicker }) {
+function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
+  const [highlight, setHighlight] = useState("#ffffff")
   const [showFileUpload, setShowFileUpload] = useState(false)
   const editor = useSlate();
 
@@ -22,10 +23,16 @@ function Toolbar({ state, showColorPicker, setShowColorPicker }) {
 
   }
 
+  const highlightChange = (color) => {
+    setHighlight(color.hex)
+    Editor.addMark(editor, 'backgroundColor', color.hex);
+  }
+
 
 
   useEffect(() => {
-    let same = true;
+    let color = true;
+    let backgroundColor = true;
 
     const selection = window.getSelection();
     if (selection.rangeCount > 0) {
@@ -42,14 +49,21 @@ function Toolbar({ state, showColorPicker, setShowColorPicker }) {
         const stylesObj = {};
         const nodeStyles = window.getComputedStyle(currentNode.childNodes[0]);
         stylesObj.color = nodeStyles.getPropertyValue('color');
+        stylesObj.backgroundColor = nodeStyles.getPropertyValue('background-color');
+        console.log(stylesObj.backgroundColor);
         console.log(stylesObj.color);
         if (styles.length != 0) {
-          if (stylesObj.color === styles[0].color) {
-            styles.push(stylesObj);
-          }
-          else {
-            same = false
+          if (stylesObj.color != styles[0].color && stylesObj.backgroundColor != styles[0].backgroundColor) {
+            backgroundColor = false
+            color = false
             break;
+          }
+          else if (stylesObj.color != styles[0].color) {
+            color = false
+
+          }
+          else if (stylesObj.backgroundColor != styles[0].backgroundColor) {
+            backgroundColor = false
           }
         } else {
           styles.push(stylesObj);
@@ -59,14 +73,9 @@ function Toolbar({ state, showColorPicker, setShowColorPicker }) {
       }
 
 
+      color ? setFontColor(styles[0].color) : setFontColor("")
+      backgroundColor?setHighlight(styles[0].backgroundColor):setHighlight("")
 
-      if (same) {
-        setFontColor(styles[0].color)
-
-      }
-      else {
-        setFontColor("")
-      }
     }
 
 
@@ -97,19 +106,20 @@ function Toolbar({ state, showColorPicker, setShowColorPicker }) {
         </div>
 
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={() => setShowColorPicker(!showColorPicker)} title="font color"><i className="fas fa-font">
+          <div><a onClick={() => setFontColorPicker(!fontColorPicker)} title="font color"><i className="fas fa-font">
             <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
 
 
           </i></a></div>
-          <div><a title="highlight"><i className="fas fa-highlighter">
-            <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
+          <div><a onClick={() => setHighlightColorPicker(!highlightColorPicker)} title="highlight"><i className="fas fa-highlighter">
+            <div className={styles.colorIndicate} style={{ background: highlight }}></div>
           </i></a></div>
 
         </div>
 
       </div>
-      {showColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color)} /> </div>}
+      {fontColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color)} /> </div>}
+      {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color)} /> </div>}
       {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
     </div>
   )

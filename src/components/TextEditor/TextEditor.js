@@ -12,7 +12,8 @@ import Toolbar from '../Toolbar/Toolbar'
 
 function TextEditor({ brailleEditor }) {
     const textEditor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const [showColorPicker, setShowColorPicker] = useState(false)
+    const [fontColorPicker, setFontColorPicker] = useState(false)
+    const [highlightColorPicker, setHighlightColorPicker] = useState(false)
     const [language, setLanguage] = useState("")
     const [isDisabled, setIsDisabled] = useState(true)
 
@@ -71,7 +72,7 @@ function TextEditor({ brailleEditor }) {
         console.log(selection);
         //console.log(Editor.end(brailleEditor, []));
         Transforms.insertText(brailleEditor, brailleText, {
-            at: selection ?  selection.anchor : Editor.end(brailleEditor, [])
+            at: selection ? selection.anchor : Editor.end(brailleEditor, [])
         })
     }
 
@@ -98,16 +99,8 @@ function TextEditor({ brailleEditor }) {
     }
 
     const Leaf = ({ attributes, children, leaf }) => {
-        if (leaf.color) {
-            return <span {...attributes} style={{ color: leaf.color }}>{children}</span>
-        }
-        else {
-            return <span {...attributes}>{children}</span>
-        }
 
-
-
-
+        return <span {...attributes} style={{ color: leaf.color ? leaf.color : "", backgroundColor: leaf.backgroundColor ? leaf.backgroundColor : "" }}>{children}</span>
     }
 
 
@@ -128,9 +121,12 @@ function TextEditor({ brailleEditor }) {
 
 
                     <Slate editor={textEditor} value={text} onChange={(value) => handleChange(value)}>
-                        <Toolbar state={text} showColorPicker={showColorPicker} setShowColorPicker={setShowColorPicker} />
+                        <Toolbar state={text} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker} highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker} />
                         <Editable
-                            onClick={() => showColorPicker ? setShowColorPicker(false) : null}
+                            onClick={() => {
+                                fontColorPicker ? setFontColorPicker(false) : null
+                                highlightColorPicker ? setHighlightColorPicker(false) : null
+                            }}
                             // renderElement={renderElement}
                             renderLeaf={renderLeaf}
                             placeholder="Enter some rich text…"
