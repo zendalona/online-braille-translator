@@ -19,7 +19,7 @@ function BrailleEditor({ brailleEditor }) {
     }
     const Leaf = ({ attributes, children, leaf }) => {
 
-        return <span {...attributes} style={{ color: leaf.color ? leaf.color : "", backgroundColor: leaf.backgroundColor ? leaf.backgroundColor : "" }}>{children}</span>
+        return <span {...attributes} style={{ ...leaf }}>{children}</span>
     }
     return (<>
         <div className="col-12 col-sm-6 px-2">

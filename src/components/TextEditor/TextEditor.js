@@ -100,7 +100,7 @@ function TextEditor({ brailleEditor }) {
 
     const Leaf = ({ attributes, children, leaf }) => {
 
-        return <span {...attributes} style={{ color: leaf.color ? leaf.color : "", backgroundColor: leaf.backgroundColor ? leaf.backgroundColor : "" }}>{children}</span>
+        return <span {...attributes} style={{ ...leaf }}>{children}</span>
     }
 
 
