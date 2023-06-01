@@ -2,14 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styles from '../../styles/Toolbar.module.css'
 
 import { ChromePicker } from 'react-color';
-import { Editor } from 'slate';
+import { Editor, Range } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
-  const [highlight, setHighlight] = useState("#ffffff")
+  const [highlight, setHighlight] = useState("")
   const [showFileUpload, setShowFileUpload] = useState(false)
   const editor = useSlate();
 
@@ -34,49 +34,36 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
     let color = true;
     let backgroundColor = true;
 
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      console.log(selection.rangeCount);
-      const range = selection.getRangeAt(0);
-
-
-      const styles = [];
-      let currentNode = range.startContainer.parentNode.parentNode.parentNode;
-
-      while (currentNode !== range.endContainer.parentNode.parentNode.parentNode.nextSibling) {
-
-
-        const stylesObj = {};
-        const nodeStyles = window.getComputedStyle(currentNode.childNodes[0]);
-        stylesObj.color = nodeStyles.getPropertyValue('color');
-        stylesObj.backgroundColor = nodeStyles.getPropertyValue('background-color');
-        console.log(stylesObj.backgroundColor);
-        console.log(stylesObj.color);
-        if (styles.length != 0) {
-          if (stylesObj.color != styles[0].color && stylesObj.backgroundColor != styles[0].backgroundColor) {
-            backgroundColor = false
-            color = false
-            break;
-          }
-          else if (stylesObj.color != styles[0].color) {
-            color = false
-
-          }
-          else if (stylesObj.backgroundColor != styles[0].backgroundColor) {
-            backgroundColor = false
-          }
+    const selection = editor.selection
+    const leaf = []
+    if (selection) {
+      const range = Editor.range(editor, selection);
+      for (const [node, path] of Editor.nodes(editor, { at: range })) {
+        if (!color && !backgroundColor) {
+          break;
         } else {
-          styles.push(stylesObj);
+          const isPathIncluded = Range.includes(range, path);
+          if (isPathIncluded && node.hasOwnProperty('text')) {
+            if (leaf.length === 0) {
+              leaf.push(node);
+
+            }
+            else {
+              node.color != leaf[0].color ? color = false : color = true;
+              node.backgroundColor != leaf[0].backgroundColor ? backgroundColor = false : backgroundColor = true;
+
+            }
+          }
         }
-        currentNode = currentNode.nextSibling;
-
       }
+      color ? leaf[0].color ? setFontColor(leaf[0].color) : setFontColor("#000000") : setFontColor("");
+      backgroundColor ? leaf[0].backgroundColor? setHighlight(leaf[0].backgroundColor):setHighlight("") : setHighlight("");
+      
 
-
-      color ? setFontColor(styles[0].color) : setFontColor("")
-      backgroundColor?setHighlight(styles[0].backgroundColor):setHighlight("")
 
     }
+
+
 
 
 
