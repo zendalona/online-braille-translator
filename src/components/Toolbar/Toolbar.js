@@ -57,8 +57,8 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
         }
       }
       color ? leaf[0].color ? setFontColor(leaf[0].color) : setFontColor("#000000") : setFontColor("");
-      backgroundColor ? leaf[0].backgroundColor? setHighlight(leaf[0].backgroundColor):setHighlight("") : setHighlight("");
-      
+      backgroundColor ? leaf[0].backgroundColor ? setHighlight(leaf[0].backgroundColor) : setHighlight("") : setHighlight("");
+
 
 
     }
@@ -102,6 +102,11 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
             <div className={styles.colorIndicate} style={{ background: highlight }}></div>
           </i></a></div>
 
+        </div>
+        <div className={`${styles.toolContainer} pe-2`}>
+          <div><a href="#" title="Decrease font size"><i className="fas fa-minus"></i></a></div>
+          <div><a href="#" title="Font size"><div className={styles.fontSize}><span>10</span></div></a></div>
+          <div><a href="#" title="Increase font size"><i className="fas fa-plus"></i></a></div>
         </div>
 
       </div>

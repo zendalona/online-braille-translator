@@ -1,45 +1,59 @@
-.toolbox{
-    /* background: var(--primary-color); */
-    height: 86px;
-    /* box-shadow: 0px 4px 4px #00000022; */
-    display: flex;
-    align-items: center;
-    /* position: sticky;
+.toolbox {
+  /* background: var(--primary-color); */
+  height: 86px;
+  /* box-shadow: 0px 4px 4px #00000022; */
+  display: flex;
+  align-items: center;
+  /* position: sticky;
     top: 34px;
     z-index: 1; */
-    position: relative;
+  position: relative;
+  
 }
+
 .tools {
-    height: 41px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--fcolor);
-    border-radius: 19px;
-    display: flex;
-    align-items: center;
-    gap: 11px;
-  }
+  height: 41px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--fcolor);
+  border-radius: 19px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
 
 .toolContainer {
-    border-right: 1px solid rgb(184, 191, 197);
-    display: flex;
-    gap: 11px;
-  }
+  border-right: 1px solid rgb(184, 191, 197);
+  display: flex;
+  gap: 11px;
+}
 
-  .colorIndicate {
-    width: 14px;
-    
-    height: 4px;
-  }
+.colorIndicate {
+  width: 14px;
 
-  .colorPicker{
-    position: absolute;
-    z-index: 10;
-     top: 55px;
-     left: 100px;
-    
-  }
+  height: 4px;
+}
 
-  
-  
-  
+.colorPicker {
+  position: absolute;
+  z-index: 10;
+  top: 55px;
+  left: 100px;
+
+}
+
+.fontSize {
+  width: 30px;
+  height: 25px;
+  border: 1px solid;
+  border-radius: 5px;
+  text-align: center;
+
+}
+.tools::-webkit-scrollbar {
+  display: none;
+}
+
+

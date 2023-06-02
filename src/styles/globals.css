@@ -13,6 +13,7 @@ i{
 }
 a{
   color:var(--fcolor);
+  text-decoration: none;
 }
 body{
   background: var(--bg);
