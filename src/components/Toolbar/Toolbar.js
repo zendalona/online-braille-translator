@@ -10,6 +10,7 @@ import FileUpload from '../FileUpload/FileUpload';
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
+  const [fontSize, setFontSize] = useState(16)
   const [showFileUpload, setShowFileUpload] = useState(false)
   const editor = useSlate();
 
@@ -28,18 +29,44 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
     Editor.addMark(editor, 'backgroundColor', color.hex);
   }
 
+  const fontSizeChange = (action, size) => {
+    if (action === "increase") {
+      if (fontSize < 50) {
+        setFontSize((previous) => previous + 1)
+        Editor.addMark(editor, 'fontSize', fontSize + 1);
+      }
+    } else if (action === "decrease") {
+      if (fontSize > 10) {
+        setFontSize((previous) => previous - 1)
+        Editor.addMark(editor, 'fontSize', fontSize - 1);
+      }
+    } else {
+      size = Number(size)
+      if (size >= 10 && size <= 50) {
+
+
+        setFontSize(size)
+
+        Editor.addMark(editor, 'fontSize', size);
+      }
+
+    }
+
+  }
+
 
 
   useEffect(() => {
     let color = true;
     let backgroundColor = true;
+    let fontSize = true;
 
     const selection = editor.selection
     const leaf = []
     if (selection) {
       const range = Editor.range(editor, selection);
       for (const [node, path] of Editor.nodes(editor, { at: range })) {
-        if (!color && !backgroundColor) {
+        if (!color && !backgroundColor && !fontSize) {
           break;
         } else {
           const isPathIncluded = Range.includes(range, path);
@@ -51,14 +78,14 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
             else {
               node.color != leaf[0].color ? color = false : color = true;
               node.backgroundColor != leaf[0].backgroundColor ? backgroundColor = false : backgroundColor = true;
-
+              node.fontSize != leaf[0].fontSize ? fontSize = false : fontSize = true;
             }
           }
         }
       }
       color ? leaf[0].color ? setFontColor(leaf[0].color) : setFontColor("#000000") : setFontColor("");
       backgroundColor ? leaf[0].backgroundColor ? setHighlight(leaf[0].backgroundColor) : setHighlight("") : setHighlight("");
-
+      fontSize ? leaf[0].fontSize ? setFontSize(leaf[0].fontSize) : setFontSize(16) : setFontSize(null);
 
 
     }
@@ -104,9 +131,9 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a href="#" title="Decrease font size"><i className="fas fa-minus"></i></a></div>
-          <div><a href="#" title="Font size"><div className={styles.fontSize}><span>10</span></div></a></div>
-          <div><a href="#" title="Increase font size"><i className="fas fa-plus"></i></a></div>
+          <div><a onClick={() => fontSizeChange('decrease', null)} title="Decrease font size"><i className="fas fa-minus"></i></a></div>
+          <div><input className={styles.fontSize} Value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)}></input></div>
+          <div><a onClick={() => fontSizeChange('increase', null)} title="Increase font size"><i className="fas fa-plus"></i></a></div>
         </div>
 
       </div>
