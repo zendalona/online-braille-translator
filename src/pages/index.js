@@ -10,8 +10,8 @@ export const editorsContext = createContext()
 export const socketContext = createContext()
 
 export default function Home() {
-  const [text, setText] = useState([{ type: "paragraph", children: [{ text: "" }] }])
-  const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "" }] }])
+  const [text, setText] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
+  const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
   const [active, setActive] = useState('')
   const socket = useRef()
 
