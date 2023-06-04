@@ -42,13 +42,13 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
       }
     } else {
       size = Number(size)
-      if (size >= 10 && size <= 50) {
+      
 
 
         setFontSize(size)
 
         Editor.addMark(editor, 'fontSize', size);
-      }
+     
 
     }
 
@@ -132,7 +132,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
           <div><a onClick={() => fontSizeChange('decrease', null)} title="Decrease font size"><i className="fas fa-minus"></i></a></div>
-          <div><input className={styles.fontSize} Value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)}></input></div>
+          <div><input  className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)}/></div>
           <div><a onClick={() => fontSizeChange('increase', null)} title="Increase font size"><i className="fas fa-plus"></i></a></div>
         </div>
 
