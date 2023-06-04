@@ -19,18 +19,24 @@ module.exports = {
                 focus: Editor.end(editor, []),
             },
         });
+       
         /* This code is checking if there are any formatting marks applied to the text in the Slate
-        editor. If there are, it retrieves the list of marks using `Editor.marks(editor)` and
-        converts it to an array of keys using `Object.keys(marks)`. Then, it iterates over the array
-        of mark keys using `marks.map()` and removes each mark from the editor using
-        `editor.removeMark(mark)`. This ensures that any formatting applied to the text is removed
-        before performing any other actions on the editor. */
+        editor. If there are, it retrieves the marks using the `Editor.marks()` method and stores
+        them in the `marks` variable. Then, it checks each mark using the `map()` method and applies
+        a default value to each mark if it matches a specific condition. For example, if the mark is
+        `'color'`, it sets the color to black (`'#000000'`) using the `Editor.addMark()` method.
+        Similarly, if the mark is `'backgroundColor'`, it sets the background color to white
+        (`'#ffffff'`), and if the mark is `'fontSize'`, it sets the font size to 16. This code is
+        useful for resetting any formatting marks that may have been applied to the text when the
+        user clicks the "New" button to start a new document. */
         var marks = Editor.marks(editor)
         if (marks) {
             marks = Object.keys(marks)
             //console.log(marks);
             marks.map((mark) => {
-                editor.removeMark(mark)
+                mark==='color'?Editor.addMark(editor, 'color', '#000000'):null
+                mark==='backgroundColor'?Editor.addMark(editor, 'backgroundColor', '#ffffff'):null
+                mark==='fontSize'?Editor.addMark(editor, 'fontSize', 16):null
             })
         }
 
