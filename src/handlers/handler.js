@@ -6,10 +6,21 @@ module.exports = {
     /* `newClick` is a function that takes an `editor` object as its parameter. It is used to clear the
     contents of the Slate editor and reset it to a default state. */
     newClick: (editor) => {
-        /* `Transforms.removeNodes(editor)` is a function call that removes all the nodes from the
-        Slate editor. It takes the `editor` object as its parameter and modifies it by removing all
-        the nodes. */
-        Transforms.removeNodes(editor)
+        
+        /* `Transforms.removeNodes(editor, ...)` is a function call that removes nodes from the Slate
+        editor. In this case, it is removing all nodes within the editor by specifying a range that
+        starts at the beginning of the editor (`Editor.start(editor, [])`) and ends at the end of
+        the editor (`Editor.end(editor, [])`). The `anchor` and `focus` properties of the `at`
+        object specify the start and end points of the range, respectively. By passing this range to
+        `Transforms.removeNodes()`, all nodes within the editor are removed. */
+        Transforms.removeNodes(editor,{
+            at: {
+              anchor: Editor.start(editor, []),
+              focus: Editor.end(editor, []),
+            },
+          })
+
+          
         const resetValue = [
             {
                 type: 'paragraph',
