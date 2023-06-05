@@ -2,43 +2,42 @@ const { default: axios } = require("axios");
 const { Transforms, Editor, Node } = require("slate");
 
 module.exports = {
-   /* `newClick` is a function that takes an `editor` object as its parameter. It is used to clear the
-   contents of the editor and remove any formatting marks that may have been applied to the text. */
-    newClick: (editor) => {
 
-        /* `Transforms.delete(editor, { at: { anchor: Editor.start(editor, []), focus:
-        Editor.end(editor, []), }, });` is deleting the entire contents of the Slate editor by
-        selecting the range from the start of the editor to the end of the editor and deleting it.
-        The `Transforms.delete()` method is used to delete a range of content in the editor. The
-        `at` property specifies the range to delete, which is defined by the `anchor` and `focus`
-        properties. In this case, `Editor.start(editor, [])` returns the start position of the
-        editor, and `Editor.end(editor, [])` returns the end position of the editor. */
-        Transforms.delete(editor, {
-            at: {
-                anchor: Editor.start(editor, []),
-                focus: Editor.end(editor, []),
+    /* `newClick` is a function that takes an `editor` object as its parameter. It is used to clear the
+    contents of the Slate editor and reset it to a default state. */
+    newClick: (editor) => {
+        /* `Transforms.removeNodes(editor)` is a function call that removes all the nodes from the
+        Slate editor. It takes the `editor` object as its parameter and modifies it by removing all
+        the nodes. */
+        Transforms.removeNodes(editor)
+        const resetValue = [
+            {
+                type: 'paragraph',
+                children: [{ text: "", color: '#000000', fontSize: 16 }],
             },
-        });
-       
-        /* This code is checking if there are any formatting marks applied to the text in the Slate
-        editor. If there are, it retrieves the marks using the `Editor.marks()` method and stores
-        them in the `marks` variable. Then, it checks each mark using the `map()` method and applies
-        a default value to each mark if it matches a specific condition. For example, if the mark is
-        `'color'`, it sets the color to black (`'#000000'`) using the `Editor.addMark()` method.
-        Similarly, if the mark is `'backgroundColor'`, it sets the background color to white
-        (`'#ffffff'`), and if the mark is `'fontSize'`, it sets the font size to 16. This code is
-        useful for resetting any formatting marks that may have been applied to the text when the
-        user clicks the "New" button to start a new document. */
-        var marks = Editor.marks(editor)
-        if (marks) {
-            marks = Object.keys(marks)
-            //console.log(marks);
-            marks.map((mark) => {
-                mark==='color'?Editor.addMark(editor, 'color', '#000000'):null
-                mark==='backgroundColor'?Editor.addMark(editor, 'backgroundColor', '#ffffff'):null
-                mark==='fontSize'?Editor.addMark(editor, 'fontSize', 16):null
-            })
-        }
+        ];
+        /* `editor.children = resetValue;` is assigning the `resetValue` array to the `children`
+        property of the `editor` object. This is resetting the contents of the Slate editor to a
+        default state, where the editor contains only one paragraph node with an empty text string
+        and default formatting properties (black text color and font size of 16). */
+        editor.children = resetValue;
+        /* `editor.selection` is setting the selection state of the Slate editor. The `anchor` and
+        `focus` properties of the selection object are used to specify the start and end points of
+        the selection. In this case, both the `anchor` and `focus` properties are set to the first
+        character of the first paragraph node in the editor (i.e. `path: [0, 0], offset: 0`). This
+        means that the cursor will be positioned at the beginning of the editor when the
+        `newClick()` function is called.It is required to run useEffect in toolbar component */
+        editor.selection = {
+            anchor: { path: [0, 0], offset: 0 },
+            focus: { path: [0, 0], offset: 0 },
+        };
+
+       /* `editor.onChange();` is calling the `onChange` method of the `editor` object. This method is
+       used to notify the editor that its contents have changed and that any associated UI elements
+       should be updated to reflect the new state of the editor. By calling this method after
+       resetting the contents of the editor, we ensure that the editor's UI is updated to reflect
+       the new default state. */
+        editor.onChange();
 
 
     },
@@ -82,7 +81,7 @@ module.exports = {
         console.log(selectFile);
         formData.append('file', selectFile, selectFile.name);
         console.log(formData);
-        
+
         /* This code is sending a POST request to the '/api/upload' endpoint with the `formData` object
         as its payload. Once the request is successful, the response data (which is the text content
         of the uploaded file) is inserted into the Slate editor using the `editor.insertText()`
