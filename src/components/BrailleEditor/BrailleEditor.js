@@ -21,7 +21,8 @@ function BrailleEditor({ brailleEditor }) {
     }
     const handleKeyDown = (event) => {
         console.log(event.key);
-        if (event.key != 'Backspace') {
+        
+        if (event.keyCode>=65 && event.keyCode<=90) {
             event.preventDefault()
             keys.current.push(event.key)
         }
