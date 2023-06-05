@@ -16,28 +16,15 @@ module.exports = {
                 children: [{ text: "", color: '#000000', fontSize: 16 }],
             },
         ];
-        /* `editor.children = resetValue;` is assigning the `resetValue` array to the `children`
-        property of the `editor` object. This is resetting the contents of the Slate editor to a
-        default state, where the editor contains only one paragraph node with an empty text string
-        and default formatting properties (black text color and font size of 16). */
-        editor.children = resetValue;
-        /* `editor.selection` is setting the selection state of the Slate editor. The `anchor` and
-        `focus` properties of the selection object are used to specify the start and end points of
-        the selection. In this case, both the `anchor` and `focus` properties are set to the first
-        character of the first paragraph node in the editor (i.e. `path: [0, 0], offset: 0`). This
-        means that the cursor will be positioned at the beginning of the editor when the
-        `newClick()` function is called.It is required to run useEffect in toolbar component */
-        editor.selection = {
-            anchor: { path: [0, 0], offset: 0 },
-            focus: { path: [0, 0], offset: 0 },
-        };
+       /* `Transforms.insertNodes(editor, resetValue)` is a function call that inserts a new set of
+       nodes into the Slate editor. It takes the `editor` object as its first parameter and the
+       `resetValue` array as its second parameter. The `resetValue` array contains a single node
+       object that represents a paragraph with an empty text string and default formatting
+       properties. This function call is used in the `newClick` function to reset the contents of
+       the Slate editor to a default state. */
+       Transforms.insertNodes(editor, resetValue);
 
-       /* `editor.onChange();` is calling the `onChange` method of the `editor` object. This method is
-       used to notify the editor that its contents have changed and that any associated UI elements
-       should be updated to reflect the new state of the editor. By calling this method after
-       resetting the contents of the editor, we ensure that the editor's UI is updated to reflect
-       the new default state. */
-        editor.onChange();
+       
 
 
     },
