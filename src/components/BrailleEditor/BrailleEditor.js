@@ -10,6 +10,8 @@ function BrailleEditor({ brailleEditor }) {
 
     const [fontColorPicker, setFontColorPicker] = useState(false)
     const [highlightColorPicker, setHighlightColorPicker] = useState(false)
+    const [backgroundPicker, setBackgroundPicker] = useState(false)
+    const [background, setBackground] = useState("#ffffff")
     const { braille, setBraille } = useContext(editorsContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
@@ -85,11 +87,12 @@ function BrailleEditor({ brailleEditor }) {
                     <i className="fas fa-download me-3"></i>
                 </a></div> */}
                 <Slate editor={brailleEditor} value={braille} onChange={(value) => handleChange(value)} >
-                    <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker} highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker} />
+                    <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker} highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker} background={background}  setBackground={setBackground} backgroundPicker={backgroundPicker} setBackgroundPicker={setBackgroundPicker} />
                     <Editable
                         onClick={() => {
                             fontColorPicker ? setFontColorPicker(false) : null
                             highlightColorPicker ? setHighlightColorPicker(false) : null
+                            backgroundPicker ? setBackgroundPicker(false) : null
                         }}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}
@@ -97,7 +100,8 @@ function BrailleEditor({ brailleEditor }) {
                         renderLeaf={renderLeaf}
 
 
-                        className={`${styles.textField} mx-3 p-1 mb-5`} />
+                        className={`${styles.textField} mx-3 p-1 mb-5`} 
+                        style={{backgroundColor:background}}/>
                 </Slate>
             </div>
 

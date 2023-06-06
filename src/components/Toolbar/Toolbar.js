@@ -7,7 +7,7 @@ import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
-function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker }) {
+function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,background,setBackground,backgroundPicker,setBackgroundPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
@@ -29,6 +29,11 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
     Editor.addMark(editor, 'backgroundColor', color.hex);
   }
 
+  const backgroundChange = (color) => {
+    setBackground(color.hex)
+    
+  }
+
   const fontSizeChange = (action, size) => {
     if (action === "increase") {
       if (fontSize < 50) {
@@ -42,13 +47,13 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
       }
     } else {
       size = Number(size)
-      
 
 
-        setFontSize(size)
 
-        Editor.addMark(editor, 'fontSize', size);
-     
+      setFontSize(size)
+
+      Editor.addMark(editor, 'fontSize', size);
+
 
     }
 
@@ -129,16 +134,21 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
             <div className={styles.colorIndicate} style={{ background: highlight }}></div>
           </i></a></div>
 
+          <div><a onClick={() => setBackgroundPicker(!backgroundPicker)} title="background color"><svg class="bi bi-palette-fill tool-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07zM8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
+          </svg></a></div>
+
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
           <div><a onClick={() => fontSizeChange('decrease', null)} title="Decrease font size"><i className="fas fa-minus"></i></a></div>
-          <div><input  className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)}/></div>
+          <div><input className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)} /></div>
           <div><a onClick={() => fontSizeChange('increase', null)} title="Increase font size"><i className="fas fa-plus"></i></a></div>
         </div>
 
       </div>
       {fontColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color)} /> </div>}
       {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color)} /> </div>}
+      {backgroundPicker && <div className={styles.colorPicker}> <ChromePicker color={background} onChange={(color) => backgroundChange(color)} /> </div>}
       {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
     </div>
   )
