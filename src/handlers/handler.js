@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 const { Transforms, Editor, Node } = require("slate");
+const { ReactEditor } = require("slate-react");
 
 module.exports = {
 
@@ -114,6 +115,77 @@ module.exports = {
         }
         //console.log(found);
         return found
+
+    },
+    findEnter: (event,index,result,search,setIsFound,editor) => {
+
+        if (event.code === 'Enter') {
+            event.preventDefault()
+            result.current = module.exports.searchWord(search, editor)
+            if (result.current.length == 0) {
+                setIsFound(false)
+                return
+            } else {
+                setIsFound(true)
+            }
+            index.current = 0
+            if (result.current.length > 0) {
+                console.log(editor);
+                index.current = 0
+                Transforms.select(editor, {
+                    anchor: { path: result.current[0].path, offset: result.current[0].start },
+                    focus: { path: result.current[0].path, offset: result.current[0].start + result.current[0].length },
+                })
+                ReactEditor.focus(editor);
+            }
+
+        }
+    },
+    findNext: (index,result,search,setIsFound,editor) => {
+        if (index.current == -1) {
+            result.current = module.exports.searchWord(search, editor)
+            if (result.current.length == 0) {
+                setIsFound(false)
+                return
+            } else {
+                setIsFound(true)
+            }
+        }
+        index.current = index.current + 1
+        if (index.current >= result.current.length) {
+            index.current = 0
+        }
+        Transforms.select(editor, {
+            anchor: { path: result.current[index.current].path, offset: result.current[index.current].start },
+            focus: { path: result.current[index.current].path, offset: result.current[index.current].start + result.current[index.current].length },
+        })
+        ReactEditor.focus(editor);
+
+
+    },
+    findPrev: (index,result,search,setIsFound,editor) => {
+        if (index.current == -1) {
+            result.current = module.exports.searchWord(search, editor)
+            if (result.current.length == 0) {
+                setIsFound(false)
+                return
+            } else {
+                setIsFound(true)
+            }
+            index.current = 0
+        } else {
+            index.current = index.current - 1
+        }
+
+        if (index.current < 0) {
+            index.current = result.current.length - 1
+        }
+        Transforms.select(editor, {
+            anchor: { path: result.current[index.current].path, offset: result.current[index.current].start },
+            focus: { path: result.current[index.current].path, offset: result.current[index.current].start + result.current[index.current].length },
+        })
+        ReactEditor.focus(editor);
+
 
     }
 }
