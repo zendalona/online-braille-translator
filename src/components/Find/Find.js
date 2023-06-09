@@ -28,7 +28,7 @@ function Find({ editor, search, setSearch, setShowFind }) {
 
     return (
         <Draggable bounds='parent'>
-            <div className={`col-6 col-sm-2 ${styles.findContainer} py-3`} style={{ boxShadow: '1px 1px 3px' }}>
+            <div className={`col-6 col-sm-4 col-xl-2 ${styles.findContainer} py-3`} style={{ boxShadow: '1px 1px 3px' }}>
                 <div className={`${styles.findHead} px-4 my-3`}><span><strong>Find</strong></span><i onClick={() => { setShowFind(false) }} className="fa fa-close" /></div>
                 <div className={`col-12 ${styles.findBody} px-4 pe-4 my-2`}><span>Word</span><input value={search} onChange={handleChange} onKeyDown={keyPress} type="text" className="col-8" /></div>
                 {!isFound && <span style={{ display: 'flex', justifyContent: 'center' }}>Not found</span>}

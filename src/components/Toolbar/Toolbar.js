@@ -7,12 +7,13 @@ import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
-function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker, background, setBackground, backgroundPicker, setBackgroundPicker }) {
+function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
+  background, setBackground, backgroundPicker, setBackgroundPicker ,setShowFind}) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
   const [showFileUpload, setShowFileUpload] = useState(false)
-  
+
 
   const editor = useSlate();
 
@@ -147,12 +148,17 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
           <div><a onClick={() => fontSizeChange('increase', null)} title="Increase font size"><i className="fas fa-plus"></i></a></div>
         </div>
 
+        <div className={`${styles.toolContainer} pe-2`}>
+          <div><a onClick={() =>setShowFind((prev)=>!prev)} title="Find"><i className="fas fa-search"></i></a></div>
+
+        </div>
+
       </div>
       {fontColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color)} /> </div>}
       {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color)} /> </div>}
       {backgroundPicker && <div className={styles.colorPicker}> <ChromePicker color={background} onChange={(color) => backgroundChange(color)} /> </div>}
       {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
-      
+
     </div>
   )
 }
