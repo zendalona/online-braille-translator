@@ -1,0 +1,25 @@
+
+.findContainer {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 14px;
+    z-index: 200;
+    top: 0;
+  }
+
+  .findHead {
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .findBody {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .findFooter {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  

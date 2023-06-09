@@ -7,6 +7,8 @@ import axios from 'axios'
 import { Editable, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
+import { searchWord } from '@/handlers/handler'
+import Find from '../Find/Find'
 
 
 
@@ -18,6 +20,9 @@ function TextEditor({ brailleEditor }) {
     const [background, setBackground] = useState("#ffffff")
     const [language, setLanguage] = useState("")
     const [isDisabled, setIsDisabled] = useState(true)
+    const [showFind, setShowFind] = useState(true)
+    const [search, setSearch] = useState(null)
+    
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
@@ -145,6 +150,7 @@ function TextEditor({ brailleEditor }) {
                             <option value="Malayalam">Malayalam</option>
                         </select></div><button className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
+                    {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind}/>}
                 </div>
             </div></>
     )

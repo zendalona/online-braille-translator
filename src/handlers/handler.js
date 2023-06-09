@@ -6,36 +6,36 @@ module.exports = {
     /* `newClick` is a function that takes an `editor` object as its parameter. It is used to clear the
     contents of the Slate editor and reset it to a default state. */
     newClick: (editor) => {
-        
+
         /* `Transforms.removeNodes(editor, ...)` is a function call that removes nodes from the Slate
         editor. In this case, it is removing all nodes within the editor by specifying a range that
         starts at the beginning of the editor (`Editor.start(editor, [])`) and ends at the end of
         the editor (`Editor.end(editor, [])`). The `anchor` and `focus` properties of the `at`
         object specify the start and end points of the range, respectively. By passing this range to
         `Transforms.removeNodes()`, all nodes within the editor are removed. */
-        Transforms.removeNodes(editor,{
+        Transforms.removeNodes(editor, {
             at: {
-              anchor: Editor.start(editor, []),
-              focus: Editor.end(editor, []),
+                anchor: Editor.start(editor, []),
+                focus: Editor.end(editor, []),
             },
-          })
+        })
 
-          
+
         const resetValue = [
             {
                 type: 'paragraph',
                 children: [{ text: "", color: '#000000', fontSize: 16 }],
             },
         ];
-       /* `Transforms.insertNodes(editor, resetValue)` is a function call that inserts a new set of
-       nodes into the Slate editor. It takes the `editor` object as its first parameter and the
-       `resetValue` array as its second parameter. The `resetValue` array contains a single node
-       object that represents a paragraph with an empty text string and default formatting
-       properties. This function call is used in the `newClick` function to reset the contents of
-       the Slate editor to a default state. */
-       Transforms.insertNodes(editor, resetValue);
+        /* `Transforms.insertNodes(editor, resetValue)` is a function call that inserts a new set of
+        nodes into the Slate editor. It takes the `editor` object as its first parameter and the
+        `resetValue` array as its second parameter. The `resetValue` array contains a single node
+        object that represents a paragraph with an empty text string and default formatting
+        properties. This function call is used in the `newClick` function to reset the contents of
+        the Slate editor to a default state. */
+        Transforms.insertNodes(editor, resetValue);
 
-       
+
 
 
     },
@@ -99,6 +99,21 @@ module.exports = {
 
         })
 
+
+    },
+    searchWord: (word, editor) => {
+        const found = []
+        for (const [node, path] of Editor.nodes(editor, { at: { anchor: Editor.start(editor, []), focus: Editor.end(editor, []) } })) {
+            if (node.hasOwnProperty('text')) {
+                let text = node.text
+
+                let matches = text.matchAll(new RegExp(word, 'gi'))
+                matches = Array.from(matches)
+                matches.map((match) => { found.push({ path: path, start: match.index, length: word.length }) })
+            }
+        }
+        //console.log(found);
+        return found
 
     }
 }

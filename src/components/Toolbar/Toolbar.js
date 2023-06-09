@@ -7,11 +7,13 @@ import { useFocused, useSelected, useSlate } from 'slate-react';
 import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
-function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,background,setBackground,backgroundPicker,setBackgroundPicker }) {
+function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker, background, setBackground, backgroundPicker, setBackgroundPicker }) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
   const [showFileUpload, setShowFileUpload] = useState(false)
+  
+
   const editor = useSlate();
 
   //console.log(editor);
@@ -31,7 +33,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
   const backgroundChange = (color) => {
     setBackground(color.hex)
-    
+
   }
 
   const fontSizeChange = (action, size) => {
@@ -150,6 +152,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
       {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color)} /> </div>}
       {backgroundPicker && <div className={styles.colorPicker}> <ChromePicker color={background} onChange={(color) => backgroundChange(color)} /> </div>}
       {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
+      
     </div>
   )
 }
