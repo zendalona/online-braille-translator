@@ -4,8 +4,8 @@
     background-color: #ffffff;
     border-radius: 14px;
     z-index: 200;
-    top: 25%;
-    left: 25%;
+    /* top: 25%;
+    left: 25%; */
   }
 
   .findHead {
@@ -22,5 +22,7 @@
   .findFooter {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    
   }
   

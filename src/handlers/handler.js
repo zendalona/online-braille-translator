@@ -117,7 +117,7 @@ module.exports = {
         return found
 
     },
-    findEnter: (event,index,result,search,setIsFound,editor) => {
+    findEnter: (event, index, result, search, setIsFound, editor) => {
 
         if (event.code === 'Enter') {
             event.preventDefault()
@@ -141,7 +141,7 @@ module.exports = {
 
         }
     },
-    findNext: (index,result,search,setIsFound,editor) => {
+    findNext: (index, result, search, setIsFound, editor) => {
         if (index.current == -1) {
             result.current = module.exports.searchWord(search, editor)
             if (result.current.length == 0) {
@@ -163,7 +163,7 @@ module.exports = {
 
 
     },
-    findPrev: (index,result,search,setIsFound,editor) => {
+    findPrev: (index, result, search, setIsFound, editor) => {
         if (index.current == -1) {
             result.current = module.exports.searchWord(search, editor)
             if (result.current.length == 0) {
@@ -186,6 +186,48 @@ module.exports = {
         })
         ReactEditor.focus(editor);
 
+
+    },
+    wordReplace: (index, result, replace, setIsFound, editor) => {
+        if (index.current == -1) {
+            setIsFound(false)
+        } else {
+            Transforms.insertText(editor, replace, {
+                at: {
+                    anchor: { path: result.current[index.current].path, offset: result.current[index.current].start },
+                    focus: { path: result.current[index.current].path, offset: result.current[index.current].start + result.current[index.current].length }
+                },
+            })
+            ReactEditor.focus(editor);
+            index.current = -1
+            result.current=[]
+        }
+
+    },
+    replaceAll: (index, result, replace, setIsFound, editor, search) => {
+        if (index.current == -1) {
+            setIsFound(false)
+        } else {
+            let i = 1;
+            let len = result.current.length
+            while (1) {
+                Transforms.insertText(editor, replace, {
+                    at: {
+                        anchor: { path: result.current[0].path, offset: result.current[0].start },
+                        focus: { path: result.current[0].path, offset: result.current[0].start + result.current[0].length }
+                    },
+                })
+                index.current = -1
+                if (i <len) {
+                    module.exports.findNext(index, result, search, setIsFound, editor)
+                    i = i + 1
+                } else {
+                    break;
+                }
+            }
+            result.current=[]
+
+        }
 
     }
 }

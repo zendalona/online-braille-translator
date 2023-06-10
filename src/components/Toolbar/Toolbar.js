@@ -8,7 +8,7 @@ import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
-  background, setBackground, backgroundPicker, setBackgroundPicker ,setShowFind}) {
+  background, setBackground, backgroundPicker, setBackgroundPicker ,setShowFind,setShowReplace}) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
@@ -150,6 +150,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
         <div className={`${styles.toolContainer} pe-2`}>
           <div><a onClick={() =>setShowFind((prev)=>!prev)} title="Find"><i className="fas fa-search"></i></a></div>
+          <div><a onClick={() =>setShowReplace((prev)=>!prev)} title="Find And Replace"><i className="fas fa-search"></i></a></div>
 
         </div>
 

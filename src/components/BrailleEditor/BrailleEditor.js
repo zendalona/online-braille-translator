@@ -6,13 +6,20 @@ import styles from '../../styles/BrailleEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 import { withHistory } from 'slate-history'
 import braillePattern from '../../../public/braille/braillePattern.txt'
+import Find from '../Find/Find'
+import FileAndReplace from '../FileAndReplace/FileAndReplace'
 function BrailleEditor({ brailleEditor }) {
 
     const [fontColorPicker, setFontColorPicker] = useState(false)
     const [highlightColorPicker, setHighlightColorPicker] = useState(false)
     const [backgroundPicker, setBackgroundPicker] = useState(false)
     const [background, setBackground] = useState("#ffffff")
+    const [showFind, setShowFind] = useState(false)
+    const [showReplace, setShowReplace] = useState(false)
+    const [search, setSearch] = useState(null)
     const { braille, setBraille } = useContext(editorsContext)
+
+
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const keys = useRef([])
@@ -23,8 +30,8 @@ function BrailleEditor({ brailleEditor }) {
     }
     const handleKeyDown = (event) => {
         console.log(event.key);
-        
-        if (event.keyCode>=65 && event.keyCode<=90) {
+
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
             event.preventDefault()
             keys.current.push(event.key)
         }
@@ -87,7 +94,10 @@ function BrailleEditor({ brailleEditor }) {
                     <i className="fas fa-download me-3"></i>
                 </a></div> */}
                 <Slate editor={brailleEditor} value={braille} onChange={(value) => handleChange(value)} >
-                    <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker} highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker} background={background}  setBackground={setBackground} backgroundPicker={backgroundPicker} setBackgroundPicker={setBackgroundPicker} />
+                    <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
+                        highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
+                        background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
+                        setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} />
                     <Editable
                         onClick={() => {
                             fontColorPicker ? setFontColorPicker(false) : null
@@ -100,10 +110,13 @@ function BrailleEditor({ brailleEditor }) {
                         renderLeaf={renderLeaf}
 
 
-                        className={`${styles.textField} mx-3 p-1 mb-5`} 
-                        style={{backgroundColor:background}}/>
+                        className={`${styles.textField} mx-3 p-1 mb-5`}
+                        style={{ backgroundColor: background }} />
                 </Slate>
+                {showFind && <Find editor={brailleEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
+                {showReplace && <FileAndReplace editor={brailleEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
             </div>
+
 
         </div></>
     )

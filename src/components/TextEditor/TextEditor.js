@@ -9,6 +9,7 @@ import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 import { searchWord } from '@/handlers/handler'
 import Find from '../Find/Find'
+import FileAndReplace from '../FileAndReplace/FileAndReplace'
 
 
 
@@ -21,6 +22,7 @@ function TextEditor({ brailleEditor }) {
     const [language, setLanguage] = useState("")
     const [isDisabled, setIsDisabled] = useState(true)
     const [showFind, setShowFind] = useState(false)
+    const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
 
 
@@ -131,7 +133,7 @@ function TextEditor({ brailleEditor }) {
                         <Toolbar state={text} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
                             highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
                             background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
-                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} />
+                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} />
                         <Editable
                             onClick={() => {
                                 fontColorPicker ? setFontColorPicker(false) : null
@@ -154,6 +156,7 @@ function TextEditor({ brailleEditor }) {
                         </select></div><button className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
                     {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
+                    {showReplace && <FileAndReplace editor={textEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
                 </div>
             </div></>
     )
