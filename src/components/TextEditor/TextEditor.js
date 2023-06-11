@@ -10,6 +10,7 @@ import Toolbar from '../Toolbar/Toolbar'
 import { searchWord } from '@/handlers/handler'
 import Find from '../Find/Find'
 import FileAndReplace from '../FileAndReplace/FileAndReplace'
+import Loading from '../LoadingScreen/Loading'
 
 
 
@@ -24,6 +25,7 @@ function TextEditor({ brailleEditor }) {
     const [showFind, setShowFind] = useState(false)
     const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
+    const [loading, setLoading] = useState(false)
 
 
 
@@ -56,7 +58,7 @@ function TextEditor({ brailleEditor }) {
 
 
         socket.emit('translate', { text: plainText, language: language })
-
+        setLoading(true)
 
 
 
@@ -94,7 +96,7 @@ function TextEditor({ brailleEditor }) {
         Transforms.insertText(brailleEditor, result, {
             at: selection ? selection.anchor : Editor.end(brailleEditor, [])
         })
-        console.log("here");
+        setLoading(false)
     }
 
 
@@ -169,6 +171,7 @@ function TextEditor({ brailleEditor }) {
                     </div>
                     {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
                     {showReplace && <FileAndReplace editor={textEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
+                    {loading && <Loading />}
                 </div>
             </div></>
     )
