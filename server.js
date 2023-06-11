@@ -37,7 +37,8 @@ app.prepare().then(() => {
     io.on('connection', (socket) => {
         console.log("new client connected");
 
-        socket.on('translate', (data) => {
+        socket.on('translate', (data,ack) => {
+            ack()
             console.log(data);
             textToBraille(data, (brailleText) => {
                 console.log("callback");

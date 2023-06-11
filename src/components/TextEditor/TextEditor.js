@@ -57,8 +57,10 @@ function TextEditor({ brailleEditor }) {
         }
 
 
-        socket.emit('translate', { text: plainText, language: language })
-        setLoading(true)
+        socket.emit('translate', { text: plainText, language: language }, () => {
+            setLoading(true)
+        })
+
 
 
 
