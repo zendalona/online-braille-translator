@@ -47,6 +47,7 @@ function TextEditor({ brailleEditor }) {
 
         if (check) {
             var plainText = text.map(n => Node.string(n)).join('')
+            console.log(plainText);
         }
         else {
             var plainText = Editor.string(textEditor, selection)
@@ -78,11 +79,22 @@ function TextEditor({ brailleEditor }) {
     };
     const brailleResult = (brailleText) => {
         const { selection } = brailleEditor
-        console.log(selection);
-        //console.log(Editor.end(brailleEditor, []));
-        Transforms.insertText(brailleEditor, brailleText, {
+        //console.log(selection);
+        var result = brailleText.split('')
+        if (result.length > 20) {
+            for (var i = 20; i < result.length; i += 21) {
+                result.splice(i, 0, '\n');
+            }
+        }
+        result = result.join('')
+        //console.log(result);
+
+
+
+        Transforms.insertText(brailleEditor, result, {
             at: selection ? selection.anchor : Editor.end(brailleEditor, [])
         })
+        console.log("here");
     }
 
 
