@@ -31,7 +31,9 @@ app.prepare().then(() => {
     server.use(express.json({ limit: '50mb' }));
     server.use(fileUpload())
     const httpServer = http.createServer(server);
-    const io = socketIO(httpServer);
+    const io = socketIO(httpServer,{
+        maxHttpBufferSize: 1e8
+    });
 
 
     io.on('connection', (socket) => {
