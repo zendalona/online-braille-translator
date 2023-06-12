@@ -1,5 +1,5 @@
 import { editorsContext, socketContext } from '@/pages'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { createEditor, Editor, Node, path, Path, Range, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
 import axios from 'axios'
@@ -11,6 +11,7 @@ import { searchWord } from '@/handlers/handler'
 import Find from '../Find/Find'
 import FileAndReplace from '../FileAndReplace/FileAndReplace'
 import Loading from '../LoadingScreen/Loading'
+import Worker from 'worker-loader!../../../src/workers/worker.js';
 
 
 
@@ -26,7 +27,7 @@ function TextEditor({ brailleEditor }) {
     const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
-
+    const worker = useRef()
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
@@ -81,24 +82,44 @@ function TextEditor({ brailleEditor }) {
         // console.log(plainText);
 
     };
-    const brailleResult = (brailleText) => {
-        const { selection } = brailleEditor
-        //console.log(selection);
-        var result = brailleText.split('')
-        if (result.length > 20) {
-            for (var i = 20; i < result.length; i += 21) {
-                result.splice(i, 0, '\n');
+    useEffect(() => {
+        worker.current = new Worker()
+
+        worker.current.addEventListener('message', async function (e) {
+            const datas = e.data
+            for (const data of datas) {
+                const { selection } = brailleEditor
+                Transforms.insertText(brailleEditor, data, {
+                    at: selection ? selection.anchor : Editor.end(brailleEditor, [])
+                })
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve()
+
+                    }, 0.1);
+                })
             }
+            setLoading(false)
+
+        });
+
+        return () => {
+            worker.current.terminate()
         }
-        result = result.join('')
-        //console.log(result);
+    }, [])
 
 
 
-        Transforms.insertText(brailleEditor, result, {
-            at: selection ? selection.anchor : Editor.end(brailleEditor, [])
-        })
-        setLoading(false)
+    const brailleResult = async (brailleText) => {
+
+
+        worker.current.postMessage(brailleText)
+
+
+
+
+
+
     }
 
 
