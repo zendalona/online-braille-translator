@@ -170,8 +170,9 @@ function TextEditor({ brailleEditor }) {
                         <Toolbar state={text} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
                             highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
                             background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
-                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} />
-                        <Editable
+                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} 
+                            name="text editor" />
+                        <Editable aria-label='text editor'
                             onClick={() => {
                                 fontColorPicker ? setFontColorPicker(false) : null
                                 highlightColorPicker ? setHighlightColorPicker(false) : null

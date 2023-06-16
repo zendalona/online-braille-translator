@@ -97,8 +97,9 @@ function BrailleEditor({ brailleEditor }) {
                     <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
                         highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
                         background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
-                        setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} />
-                    <Editable
+                        setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} 
+                        name="braille editor"/>
+                    <Editable aria-label='braille editor'
                         onClick={() => {
                             fontColorPicker ? setFontColorPicker(false) : null
                             highlightColorPicker ? setHighlightColorPicker(false) : null

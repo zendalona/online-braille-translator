@@ -8,7 +8,7 @@ import { downloadClick, newClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
-  background, setBackground, backgroundPicker, setBackgroundPicker ,setShowFind,setShowReplace}) {
+  background, setBackground, backgroundPicker, setBackgroundPicker ,setShowFind,setShowReplace,name}) {
   const [fontColor, setFontColor] = useState("#000000")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
@@ -117,40 +117,40 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
       <div className={`${styles.tools} px-3 col-12`}>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={() => { newClick(editor) }} title="New"><i className="fas fa-file"></i></a></div>
-          <div><a onClick={() => setShowFileUpload((previous) => !previous)} title="Open"><i className="fa fa-folder-open"></i></a></div>
-          <div><a onClick={() => { downloadClick(state) }} title="Download"><i className="fas fa-download"></i></a></div>
+          <div><button  onClick={() => { newClick(editor) }} aria-label={`${name} new`} title="New"><i className="fas fa-file"></i></button></div>
+          <div><button onClick={() => setShowFileUpload((previous) => !previous)} aria-label={`${name} open`} title="Open"><i className="fa fa-folder-open"></i></button></div>
+          <div><button onClick={() => { downloadClick(state) }} aria-label={`${name} download`} title="Download"><i className="fas fa-download"></i></button></div>
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a href="#" title="Undo"><i className="fas fa-undo"></i></a></div>
-          <div><a href="#" title="Redo"><i className="fas fa-redo"></i></a></div>
+          <div><button href="#" aria-label={`${name} undo`} title="Undo"><i className="fas fa-undo"></i></button></div>
+          <div><button href="#" aria-label={`${name} redo`} title="Redo"><i className="fas fa-redo"></i></button></div>
         </div>
 
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={() => setFontColorPicker(!fontColorPicker)} title="font color"><i className="fas fa-font">
+          <div><button onClick={() => setFontColorPicker(!fontColorPicker)} aria-label={`${name} font color`} title="font color"><i className="fas fa-font">
             <div className={styles.colorIndicate} style={{ background: fontColor }}></div>
 
 
-          </i></a></div>
-          <div><a onClick={() => setHighlightColorPicker(!highlightColorPicker)} title="highlight"><i className="fas fa-highlighter">
+          </i></button></div>
+          <div><button onClick={() => setHighlightColorPicker(!highlightColorPicker)} aria-label={`${name} highlight`} title="highlight"><i className="fas fa-highlighter">
             <div className={styles.colorIndicate} style={{ background: highlight }}></div>
-          </i></a></div>
+          </i></button></div>
 
-          <div><a onClick={() => setBackgroundPicker(!backgroundPicker)} title="background color"><svg class="bi bi-palette-fill tool-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+          <div><button onClick={() => setBackgroundPicker(!backgroundPicker)} aria-label={`${name} background color`} title="background color"><svg class="bi bi-palette-fill tool-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
             <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07zM8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
-          </svg></a></div>
+          </svg></button></div>
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={() => fontSizeChange('decrease', null)} title="Decrease font size"><i className="fas fa-minus"></i></a></div>
-          <div><input className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)} /></div>
-          <div><a onClick={() => fontSizeChange('increase', null)} title="Increase font size"><i className="fas fa-plus"></i></a></div>
+          <div><button onClick={() => fontSizeChange('decrease', null)} aria-label={`${name} decrease font size`} title="Decrease font size"><i className="fas fa-minus"></i></button></div>
+          <div><input aria-label={`${name} font size`} className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)} /></div>
+          <div><button onClick={() => fontSizeChange('increase', null)} aria-label={`${name} increase font size`} title="Increase font size"><i className="fas fa-plus"></i></button></div>
         </div>
 
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><a onClick={() =>setShowFind((prev)=>!prev)} title="Find"><i className="fas fa-search"></i></a></div>
-          <div><a onClick={() =>setShowReplace((prev)=>!prev)} title="Find And Replace"><i className="fas fa-search"></i></a></div>
+          <div><button onClick={() =>setShowFind((prev)=>!prev)} aria-label={`${name} find`} title="Find"><i className="fas fa-search"></i></button></div>
+          <div><button onClick={() =>setShowReplace((prev)=>!prev)} aria-label={`${name} find and replace`} title="Find And Replace"><i className="fas fa-search"></i></button></div>
 
         </div>
 
