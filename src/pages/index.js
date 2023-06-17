@@ -8,20 +8,59 @@ import { io } from 'socket.io-client'
 
 export const editorsContext = createContext()
 export const socketContext = createContext()
+export const shortcutContext = createContext()
 
 export default function Home() {
   const [text, setText] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
   const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
   const [active, setActive] = useState('')
   const socket = useRef()
+  const [textEditorFocus, setTextEditorFocus] = useState(false)
+  const [brailleEditorFocus, setBrailleEditorFocus] = useState(false)
+  const translateRef = useRef()
 
   useEffect(() => {
-    socket.current = io({forceNew:true});
+    socket.current = io({ forceNew: true });
 
     return () => {
       socket.current.disconnect()
     }
   }, [])
+
+  const handleKeyDown = (event) => {
+    console.log(event);
+    
+    if (event.key === '1' && event.altKey) {
+      event.preventDefault()
+      setBrailleEditorFocus(false)
+      setTextEditorFocus(true)
+    }
+    else if (event.key === '2' && event.altKey) {
+      event.preventDefault()
+      setTextEditorFocus(false)
+      setBrailleEditorFocus(true)
+      console.log(textEditorFocus);
+    }
+    else if (event.key === 't' && event.altKey) {
+      event.preventDefault()
+      if (!translateRef.disabled) {
+        translateRef.current.click()
+      }
+    }
+  }
+
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+
+    }
+  }, [])
+
+
 
 
   return (
@@ -33,9 +72,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <socketContext.Provider value={socket.current}>
-        <editorsContext.Provider value={{ braille, setBraille, text, setText, active }}>
-          {/* <Toolbar/> */}
-          <Editor />
+        <editorsContext.Provider value={{ braille, setBraille, text, setText }}>
+          <shortcutContext.Provider value={{ textEditorFocus, setTextEditorFocus, brailleEditorFocus, setBrailleEditorFocus, translateRef }}>
+
+            {/* <Toolbar/> */}
+            <Editor />
+          </shortcutContext.Provider>
         </editorsContext.Provider>
       </socketContext.Provider>
     </>

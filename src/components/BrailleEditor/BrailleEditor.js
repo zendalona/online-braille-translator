@@ -1,7 +1,7 @@
-import { editorsContext } from '@/pages'
+import { editorsContext, shortcutContext } from '@/pages'
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { createEditor } from 'slate'
-import { Editable, Slate, withReact } from 'slate-react'
+import { Editable, ReactEditor, Slate, withReact } from 'slate-react'
 import styles from '../../styles/BrailleEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 import { withHistory } from 'slate-history'
@@ -18,6 +18,7 @@ function BrailleEditor({ brailleEditor }) {
     const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
     const { braille, setBraille } = useContext(editorsContext)
+    const { brailleEditorFocus, setBrailleEditorFocus } = useContext(shortcutContext)
 
 
     const renderElement = useCallback(props => <Element {...props} />, [])
@@ -38,6 +39,14 @@ function BrailleEditor({ brailleEditor }) {
 
 
     }
+
+    useEffect(() => {
+        if (brailleEditorFocus) {
+
+            ReactEditor.focus(brailleEditor)
+        }
+
+    }, [brailleEditorFocus])
 
     const handleKeyUp = (event) => {
         //console.log(keys.current);
@@ -97,8 +106,8 @@ function BrailleEditor({ brailleEditor }) {
                     <Toolbar state={braille} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
                         highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
                         background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
-                        setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} 
-                        name="braille editor"/>
+                        setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace}
+                        name="braille editor" />
                     <Editable aria-label='braille editor'
                         onClick={() => {
                             fontColorPicker ? setFontColorPicker(false) : null
@@ -107,6 +116,8 @@ function BrailleEditor({ brailleEditor }) {
                         }}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}
+                        onFocus={() => { setBrailleEditorFocus(true) }}
+                        onBlur={() => { setBrailleEditorFocus(false) }}
                         // renderElement={renderElement}
                         renderLeaf={renderLeaf}
 

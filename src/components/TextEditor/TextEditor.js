@@ -1,10 +1,10 @@
-import { editorsContext, socketContext } from '@/pages'
+import { editorsContext, shortcutContext, socketContext } from '@/pages'
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { createEditor, Editor, Node, path, Path, Range, Transforms } from 'slate'
 import { withHistory } from 'slate-history'
 import axios from 'axios'
 
-import { Editable, Slate, useSlate, withReact } from 'slate-react'
+import { Editable, ReactEditor, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
 import { searchWord } from '@/handlers/handler'
@@ -32,6 +32,7 @@ function TextEditor({ brailleEditor }) {
 
     const { text, setText, setBraille } = useContext(editorsContext)
     const socket = useContext(socketContext)
+    const {textEditorFocus, setTextEditorFocus,  translateRef  } = useContext(shortcutContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
 
@@ -122,6 +123,15 @@ function TextEditor({ brailleEditor }) {
 
     }
 
+    useEffect(() => {
+        if(textEditorFocus){
+            
+            ReactEditor.focus(textEditor)
+        }
+     
+    }, [textEditorFocus])
+    
+
 
     useEffect(() => {
         if (socket) {
@@ -182,7 +192,9 @@ function TextEditor({ brailleEditor }) {
                             renderLeaf={renderLeaf}
                             placeholder="Enter some rich text…"
                             spellCheck
-                            autoFocus
+                            
+                            onFocus={()=>{setTextEditorFocus(true)}}
+                            onBlur={()=>{setTextEditorFocus(false)}}
                             className={`${styles.textField} mx-3 p-1`}
                             style={{ backgroundColor: background }} />
                     </Slate>
@@ -191,7 +203,7 @@ function TextEditor({ brailleEditor }) {
                             <option value="" defaultValue>Select a language</option>
                             <option value="English">English</option>
                             <option value="Malayalam">Malayalam</option>
-                        </select></div><button className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
+                        </select></div><button ref={translateRef} className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
                     {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
                     {showReplace && <FileAndReplace editor={textEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
