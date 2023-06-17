@@ -109,7 +109,7 @@ function TextEditor({ brailleEditor }) {
         }
     }, [])
 
-
+    
 
     const brailleResult = async (brailleText) => {
 
@@ -199,7 +199,7 @@ function TextEditor({ brailleEditor }) {
                             style={{ backgroundColor: background }} />
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
-                        <div><select onChange={(event) => selectLanguage(event.target.value)}>
+                        <div><select autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
                             <option value="" defaultValue>Select a language</option>
                             <option value="English">English</option>
                             <option value="Malayalam">Malayalam</option>
