@@ -28,11 +28,12 @@ function TextEditor({ brailleEditor }) {
     const [search, setSearch] = useState(null)
     const [loading, setLoading] = useState(false)
     const worker = useRef()
+    const [languagesList, setLanguagesList] = useState([])
 
 
     const { text, setText, setBraille } = useContext(editorsContext)
     const socket = useContext(socketContext)
-    const {textEditorFocus, setTextEditorFocus,  translateRef  } = useContext(shortcutContext)
+    const { textEditorFocus, setTextEditorFocus, translateRef } = useContext(shortcutContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
 
@@ -83,6 +84,26 @@ function TextEditor({ brailleEditor }) {
         // console.log(plainText);
 
     };
+
+    useEffect(() => {
+        axios.get('/languages/language-table-dict.txt').then((response) => {
+            const languages = response.data.split('\n')
+            languages.every((line) => {
+                const [language, table, symbol] = line.trim().split(' ')
+                setLanguagesList((prev)=>[...prev, {language, table, symbol}])
+                return true
+            })
+            //console.log(languagesList.current);
+
+        })
+
+
+    }, [])
+
+
+
+
+
     useEffect(() => {
         worker.current = new Worker()
 
@@ -109,7 +130,7 @@ function TextEditor({ brailleEditor }) {
         }
     }, [])
 
-    
+
 
     const brailleResult = async (brailleText) => {
 
@@ -124,13 +145,13 @@ function TextEditor({ brailleEditor }) {
     }
 
     useEffect(() => {
-        if(textEditorFocus){
-            
+        if (textEditorFocus) {
+
             ReactEditor.focus(textEditor)
         }
-     
+
     }, [textEditorFocus])
-    
+
 
 
     useEffect(() => {
@@ -180,7 +201,7 @@ function TextEditor({ brailleEditor }) {
                         <Toolbar state={text} fontColorPicker={fontColorPicker} setFontColorPicker={setFontColorPicker}
                             highlightColorPicker={highlightColorPicker} setHighlightColorPicker={setHighlightColorPicker}
                             background={background} setBackground={setBackground} backgroundPicker={backgroundPicker}
-                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace} 
+                            setBackgroundPicker={setBackgroundPicker} setShowFind={setShowFind} setShowReplace={setShowReplace}
                             name="text editor" />
                         <Editable aria-label='text editor'
                             onClick={() => {
@@ -192,17 +213,22 @@ function TextEditor({ brailleEditor }) {
                             renderLeaf={renderLeaf}
                             placeholder="Enter some rich text…"
                             spellCheck
-                            
-                            onFocus={()=>{setTextEditorFocus(true)}}
-                            onBlur={()=>{setTextEditorFocus(false)}}
+
+                            onFocus={() => { setTextEditorFocus(true) }}
+                            onBlur={() => { setTextEditorFocus(false) }}
                             className={`${styles.textField} mx-3 p-1`}
                             style={{ backgroundColor: background }} />
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
-                        <div><select autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
+                        <div  className='col-6'><select  className='col-12'  autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
                             <option value="" defaultValue>Select a language</option>
-                            <option value="English">English</option>
-                            <option value="Malayalam">Malayalam</option>
+                            {
+                                languagesList.map((list, index) => {
+                                    return <option value={list.table}>{list.language}</option>
+                                })
+                            }
+
+
                         </select></div><button ref={translateRef} className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
                     {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
