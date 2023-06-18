@@ -1,9 +1,11 @@
 self.onmessage = (event) => {
     console.log("iam worker");
-    var brailleText = event.data
+    var brailleText = event.data.brailleText
+    var limit=event.data.lineLimit
+    console.log(limit);
     var result = brailleText.split('')
-    if (result.length > 20) {
-        for (var i = 20; i < result.length; i += 21) {
+    if (result.length > limit) {
+        for (var i = limit; i < result.length; i =i+limit+1) {
             result.splice(i, 0, '\n');
         }
     }

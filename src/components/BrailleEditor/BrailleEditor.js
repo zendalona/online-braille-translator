@@ -17,7 +17,7 @@ function BrailleEditor({ brailleEditor }) {
     const [showFind, setShowFind] = useState(false)
     const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
-    const { braille, setBraille } = useContext(editorsContext)
+    const { braille, setBraille, lineLimit, setLineLimit } = useContext(editorsContext)
     const { brailleEditorFocus, setBrailleEditorFocus } = useContext(shortcutContext)
 
 
@@ -39,6 +39,8 @@ function BrailleEditor({ brailleEditor }) {
 
 
     }
+    
+    
 
     useEffect(() => {
         if (brailleEditorFocus) {
@@ -122,9 +124,15 @@ function BrailleEditor({ brailleEditor }) {
                         renderLeaf={renderLeaf}
 
 
-                        className={`${styles.textField} mx-3 p-1 mb-5`}
+                        className={`${styles.textField} mx-3 p-1`}
                         style={{ backgroundColor: background }} />
                 </Slate>
+                <div className={`${styles.editorFooter} px-3 py-2`} >
+                    <label className="me-2">Line Limit</label>
+                    <input style={{ width: '50px' }} type='number' value={lineLimit} onChange={(event) => setLineLimit(Number(event.target.value))} min='1' max='999' />
+                </div>
+
+
                 {showFind && <Find editor={brailleEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
                 {showReplace && <FileAndReplace editor={brailleEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
             </div>

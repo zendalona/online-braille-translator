@@ -23,3 +23,7 @@ button{
 body{
   background: var(--bg);
 }
+
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1
+}

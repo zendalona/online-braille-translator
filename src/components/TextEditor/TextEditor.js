@@ -31,7 +31,7 @@ function TextEditor({ brailleEditor }) {
     const [languagesList, setLanguagesList] = useState([])
 
 
-    const { text, setText, setBraille } = useContext(editorsContext)
+    const { text, setText, setBraille, lineLimit, setLineLimit } = useContext(editorsContext)
     const socket = useContext(socketContext)
     const { textEditorFocus, setTextEditorFocus, translateRef } = useContext(shortcutContext)
     const renderElement = useCallback(props => <Element {...props} />, [])
@@ -90,7 +90,7 @@ function TextEditor({ brailleEditor }) {
             const languages = response.data.split('\n')
             languages.every((line) => {
                 const [language, table, symbol] = line.trim().split(' ')
-                setLanguagesList((prev)=>[...prev, {language, table, symbol}])
+                setLanguagesList((prev) => [...prev, { language, table, symbol }])
                 return true
             })
             //console.log(languagesList.current);
@@ -132,10 +132,11 @@ function TextEditor({ brailleEditor }) {
 
 
 
-    const brailleResult = async (brailleText) => {
 
+    const brailleResult = (brailleText) => {
+        console.log(lineLimit);
 
-        worker.current.postMessage(brailleText)
+        worker.current.postMessage({ brailleText, lineLimit })
 
 
 
@@ -162,7 +163,7 @@ function TextEditor({ brailleEditor }) {
                 socket.off('result', brailleResult)
             }
         }
-    }, [socket])
+    }, [socket,lineLimit])
 
 
     const selectLanguage = (value) => {
@@ -220,7 +221,7 @@ function TextEditor({ brailleEditor }) {
                             style={{ backgroundColor: background }} />
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
-                        <div  className='col-6'><select  className='col-12'  autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
+                        <div className='col-6'><select className='col-12' autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
                             <option value="" defaultValue>Select a language</option>
                             {
                                 languagesList.map((list, index) => {

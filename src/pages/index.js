@@ -17,6 +17,7 @@ export default function Home() {
   const socket = useRef()
   const [textEditorFocus, setTextEditorFocus] = useState(false)
   const [brailleEditorFocus, setBrailleEditorFocus] = useState(false)
+  const [lineLimit, setLineLimit] = useState(20)
   const translateRef = useRef()
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <socketContext.Provider value={socket.current}>
-        <editorsContext.Provider value={{ braille, setBraille, text, setText }}>
+        <editorsContext.Provider value={{ braille, setBraille, text, setText,lineLimit,setLineLimit }}>
           <shortcutContext.Provider value={{ textEditorFocus, setTextEditorFocus, brailleEditorFocus, setBrailleEditorFocus, translateRef }}>
 
             {/* <Toolbar/> */}
