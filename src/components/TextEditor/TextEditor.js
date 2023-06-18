@@ -147,9 +147,11 @@ function TextEditor({ brailleEditor }) {
 
     useEffect(() => {
         if (textEditorFocus) {
+            //console.log('focus');
 
             ReactEditor.focus(textEditor)
         }
+        //console.log("focus changed");
 
     }, [textEditorFocus])
 
@@ -215,7 +217,7 @@ function TextEditor({ brailleEditor }) {
                             placeholder="Enter some rich text…"
                             spellCheck
 
-                            onFocus={() => { setTextEditorFocus(true) }}
+                            onFocusCapture={() => { setTextEditorFocus(true) }}
                             onBlur={() => { setTextEditorFocus(false) }}
                             className={`${styles.textField} mx-3 p-1`}
                             style={{ backgroundColor: background }} />

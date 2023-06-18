@@ -118,7 +118,7 @@ function BrailleEditor({ brailleEditor }) {
                         }}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}
-                        onFocus={() => { setBrailleEditorFocus(true) }}
+                        onFocusCapture={() => { setBrailleEditorFocus(true) }}
                         onBlur={() => { setBrailleEditorFocus(false) }}
                         // renderElement={renderElement}
                         renderLeaf={renderLeaf}
