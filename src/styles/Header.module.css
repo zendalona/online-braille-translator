@@ -1,7 +1,14 @@
-.logobox {
+.headerbox {
     background: var(--secondary-color);
     height: 40px;
     position: sticky;
     top: 0;
     z-index: 12;
+  }
+
+  .headerNav{
+    display:flex;
+    gap:15px;
+    justify-content: flex-end;
+    
   }
