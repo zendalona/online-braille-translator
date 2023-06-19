@@ -12,7 +12,7 @@ import Find from '../Find/Find'
 import FileAndReplace from '../FileAndReplace/FileAndReplace'
 import Loading from '../LoadingScreen/Loading'
 import Worker from 'worker-loader!../../../src/workers/worker.js';
-
+import { useUpdateEffect } from 'usehooks-ts'
 
 
 function TextEditor({ brailleEditor }) {
@@ -100,7 +100,15 @@ function TextEditor({ brailleEditor }) {
 
     }, [])
 
+    useUpdateEffect(() => {
+        if(!loading){
+            setTimeout(() => {
+                alert("Translation completed")
+                
+            }, 0);
+        }
 
+    }, [loading])
 
 
 
@@ -165,7 +173,7 @@ function TextEditor({ brailleEditor }) {
                 socket.off('result', brailleResult)
             }
         }
-    }, [socket,lineLimit])
+    }, [socket, lineLimit])
 
 
     const selectLanguage = (value) => {
