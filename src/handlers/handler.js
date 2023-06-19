@@ -40,12 +40,19 @@ module.exports = {
 
 
     },
-    /* `downloadClick` is a function that takes an array of Slate nodes as its parameter (`data`). It
-    converts the array of nodes to plain text by mapping over each node and using `Node.string(n)`
-    to get the string value of the node. The resulting array of strings is then joined together
-    using `.join('')` to create a single string of plain text. */
+    
+   /* The `downloadClick` function is creating a downloadable file from the contents of the Slate
+   editor. It takes the `data` parameter, which is an array of nodes representing the contents of
+   the editor. The function first converts the nodes to plain text using the `Node.string()` method
+   and joins them with newline characters. It then creates a Blob object containing the plain text
+   content and creates a URL object that points to the Blob. This URL is used to create a link
+   element with a `download` attribute set to "editor_content.txt", which triggers the download of
+   the file when clicked. Finally, the temporary URL and link element are cleaned up using
+   `URL.revokeObjectURL()` and `document.body.removeChild()`. */
     downloadClick: (data) => {
-        var plainText = data.map(n => Node.string(n)).join('')
+        //console.log(data);
+        var plainText = data.map(n => Node.string(n)).join('\n')
+        console.log(plainText);
         /* This line of code is creating a URL object that represents the plain text content of the
         Slate editor. It does this by creating a new Blob object that contains the plain text
         content of the editor, and then creating a URL object that points to the Blob object. The
