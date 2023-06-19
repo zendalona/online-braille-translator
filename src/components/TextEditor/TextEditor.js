@@ -231,7 +231,9 @@ function TextEditor({ brailleEditor }) {
                             style={{ backgroundColor: background }} />
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
-                        <div className='col-6'><select className='col-12' autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
+                        <div className='col-6'>
+                        <label className="me-2">Language</label>
+                            <select className='col-12' autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
                             <option value="" defaultValue>Select a language</option>
                             {
                                 languagesList.map((list, index) => {
