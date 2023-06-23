@@ -11,12 +11,12 @@ self.onmessage = (event) => {
     }
     result = result.join('')
     //console.log(result);
-    var index = 0;
-    var datas = []
-    while (index < result.length) {
-        datas.push(result.slice(index, index + 100000))
-        index = index + 100000
-    }
+    // var index = 0;
+    // var datas = []
+    // while (index < result.length) {
+    //     datas.push(result.slice(index, index + 100000))
+    //     index = index + 100000
+    // }
     console.log("worke finish");
-    self.postMessage(datas);
+    self.postMessage(result);
 }

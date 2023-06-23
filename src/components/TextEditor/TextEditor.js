@@ -116,19 +116,25 @@ function TextEditor({ brailleEditor }) {
         worker.current = new Worker()
 
         worker.current.addEventListener('message', async function (e) {
-            const datas = e.data
-            for (const data of datas) {
-                const { selection } = brailleEditor
-                Transforms.insertText(brailleEditor, data, {
-                    at: selection ? selection.anchor : Editor.end(brailleEditor, [])
-                })
-                await new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve()
+            var datas = e.data
+            const { selection } = brailleEditor
+            // for (const data of datas) {
+            //     const { selection } = brailleEditor
+            //     Transforms.insertText(brailleEditor, data, {
+            //         at: selection ? selection.anchor : Editor.end(brailleEditor, [])
+            //     })
+            //     await new Promise((resolve, reject) => {
+            //         setTimeout(() => {
+            //             resolve()
 
-                    }, 0.1);
-                })
-            }
+            //         }, 0.1);
+            //     })
+            // }
+            Editor.withoutNormalizing(brailleEditor, () => {
+                Transforms.insertText(brailleEditor, datas, {
+                            at: selection ? selection.anchor : Editor.end(brailleEditor, [])
+                        })
+            })
             setLoading(false)
 
         });
