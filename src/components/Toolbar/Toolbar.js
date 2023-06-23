@@ -4,7 +4,7 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor, Range } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-import { downloadClick, newClick } from '@/handlers/handler';
+import { downloadClick, newClick, redoClick, undoClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
@@ -123,8 +123,8 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><button href="#" aria-label={`${name} undo`} title="Undo"><i className="fas fa-undo"></i></button></div>
-          <div><button href="#" aria-label={`${name} redo`} title="Redo"><i className="fas fa-redo"></i></button></div>
+          <div><button onClick={()=>undoClick(editor)} aria-label={`${name} undo`} title="Undo"><i className="fas fa-undo"></i></button></div>
+          <div><button onClick={()=>redoClick(editor)} aria-label={`${name} redo`} title="Redo"><i className="fas fa-redo"></i></button></div>
         </div>
 
         <div className={`${styles.toolContainer} pe-2`}>

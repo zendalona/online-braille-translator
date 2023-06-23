@@ -236,6 +236,12 @@ module.exports = {
 
         }
 
+    },
+    undoClick:(editor)=>{
+        editor.undo()
+    },
+    redoClick:(editor)=>{
+        editor.redo()
     }
 }
 
