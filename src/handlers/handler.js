@@ -109,6 +109,11 @@ module.exports = {
 
 
     },
+    /* It is a JavaScript function that searches for a given word in the text content of a
+    Slate.js editor. It uses the `Editor.nodes` method to iterate over all the nodes in the editor
+    and checks if the node has a `text` property. If it does, it searches for the given word using a
+    regular expression with the `matchAll` method and pushes the results (path, start index, and
+    length of the match) to an array called `found`. Finally, it returns the `found` array. */
     searchWord: (word, editor) => {
         const found = []
         for (const [node, path] of Editor.nodes(editor, { at: { anchor: Editor.start(editor, []), focus: Editor.end(editor, []) } })) {
@@ -124,8 +129,17 @@ module.exports = {
         return found
 
     },
+
+    /* It is a function called `findEnter` that takes in several parameters including an
+    event, an index, a result, a search term, a state setter function, and an editor object. The
+    function is triggered when the user presses the "Enter" key. */
     findEnter: (event, index, result, search, setIsFound, editor) => {
 
+        /* It is checking if the key pressed is the "Enter" key. If it is, it prevents the
+        default behavior of the event and searches for a word in the editor using the `searchWord`
+        function from a module. If the word is found, it sets a state variable `isFound` to true and
+        selects the first occurrence of the word in the editor. If the word is not found, it sets
+        `isFound` to false. */
         if (event.code === 'Enter') {
             event.preventDefault()
             result.current = module.exports.searchWord(search, editor)
@@ -136,6 +150,7 @@ module.exports = {
                 setIsFound(true)
             }
             index.current = 0
+           
             if (result.current.length > 0) {
                 console.log(editor);
                 index.current = 0
@@ -148,7 +163,13 @@ module.exports = {
 
         }
     },
+    /* It is a function called `findNext` that takes in five parameters: `index`, `result`,
+    `search`, `setIsFound`, and `editor`. */
     findNext: (index, result, search, setIsFound, editor) => {
+        /* The below code is checking if the current index is -1. If it is, it searches for a word in
+        the editor using the searchWord function from the module.exports object. If the search
+        result is empty, it sets the state variable setIsFound to false. Otherwise, it sets
+        setIsFound to true. */
         if (index.current == -1) {
             result.current = module.exports.searchWord(search, editor)
             if (result.current.length == 0) {
@@ -158,6 +179,9 @@ module.exports = {
                 setIsFound(true)
             }
         }
+        /* The below code is incrementing the index of a result array and selecting a specific range of
+        text in a Slate.js editor based on the updated index. If the index exceeds the length of the
+        result array, it resets the index to 0. Finally, it sets the focus on the editor. */
         index.current = index.current + 1
         if (index.current >= result.current.length) {
             index.current = 0
@@ -170,7 +194,12 @@ module.exports = {
 
 
     },
+    
     findPrev: (index, result, search, setIsFound, editor) => {
+        /* The below code is checking if the current index is equal to -1. If it is, it searches for a
+        word in an editor using a function called `searchWord` from a module and sets a state
+        variable `isFound` to true if the search result is not empty. It also sets the current index
+        to 0. If the current index is not -1, it decrements the current index by 1. */
         if (index.current == -1) {
             result.current = module.exports.searchWord(search, editor)
             if (result.current.length == 0) {
@@ -184,6 +213,11 @@ module.exports = {
             index.current = index.current - 1
         }
 
+       /* The below code is selecting a specific range of text in a Slate.js editor based on the
+       current index. If the current index is less than 0, it sets the index to the last item in the
+       result array. Then, it uses the Transforms.select() method to select the text range based on
+       the path, start, and length properties of the current item in the result array. Finally, it
+       focuses the editor on the selected text range using ReactEditor.focus(). */
         if (index.current < 0) {
             index.current = result.current.length - 1
         }
@@ -195,7 +229,13 @@ module.exports = {
 
 
     },
+    
     wordReplace: (index, result, replace, setIsFound, editor) => {
+        /* The below code is checking if the current index is equal to -1. If it is, it sets the value
+        of isFound to false. If the current index is not equal to -1, it uses the
+        Transforms.insertText method to replace the text in the editor with the specified text. It
+        then sets the focus on the editor, resets the index and result values, and clears the search
+        results. */
         if (index.current == -1) {
             setIsFound(false)
         } else {
@@ -212,6 +252,14 @@ module.exports = {
 
     },
     replaceAll: (index, result, replace, setIsFound, editor, search) => {
+       /* The below code is  that replaces all occurrences of a search string in a
+       text editor with a specified replacement string. It uses the `Transforms.insertText` method
+       to insert the replacement string at the location of each occurrence of the search string. The
+       function takes in several parameters, including the current index of the search string, an
+       array of search results, the search string itself, a state variable to indicate whether any
+       matches were found, and the editor object. It loops through the array of search results and
+       inserts the replacement string at each location, updating the index and result arrays as it
+       goes */
         if (index.current == -1) {
             setIsFound(false)
         } else {
@@ -237,13 +285,24 @@ module.exports = {
         }
 
     },
+   /* The below code is defining a function called `undoClick` that takes an `editor` parameter. When
+   this function is called, it will call the `undo()` method on the `editor` object, which will undo
+   the last action performed in the editor. */
     undoClick: (editor) => {
         editor.undo()
     },
+    /* The below code is defining a function called `redoClick` that takes an `editor` parameter. When
+    this function is called, it will call the `redo()` method on the `editor` object, which will
+    redo the last undone action in the editor. */
     redoClick: (editor) => {
         editor.redo()
     },
+    
     translateClick: (textEditor, text, socket, setLoading, language) => {
+       /* The below code is a JavaScript code that checks if there is a selection in a text editor. If
+       there is a selection, it gets the plain text of the selected text. If there is no selection,
+       it gets the plain text of the entire text. Then it emits a socket event with the plain text
+       and the selected language to be translated. Finally, it sets the loading state to true. */
         const { selection } = textEditor
         //console.log(selection);
         const check = Range.isCollapsed(selection);
@@ -264,16 +323,29 @@ module.exports = {
         })
     },
     fontColorChange: (color, setFontColor, editor) => {
+       /* The below code is written in JavaScript and it is setting the font color of some text to the
+       hexadecimal value of the `color` variable.  Additionally, it is adding a mark to the editor with the name 'color' and the value
+       of the `color` variable. */
         setFontColor(color.hex)
-        console.log(color);
+        //console.log(color);
+        
         Editor.addMark(editor, 'color', color.hex);
 
     },
     highlightChange: (color, setHighlight, editor) => {
+       /* The below code is likely a part of a JavaScript function that sets the highlight color of a
+       text editor. It takes a color value in hexadecimal format as an argument and adds a
+       background color mark to the editor using that color value. */
         setHighlight(color.hex)
         Editor.addMark(editor, 'backgroundColor', color.hex);
     },
     fontSizeChange: (action, size, fontSize, setFontSize, editor) => {
+        /* It is a JavaScript function that takes an action and a font size as input
+        parameters. If the action is "increase", it increases the font size by 1 and adds a
+        "fontSize" mark to the editor. If the action is "decrease", it decreases the font size by 1
+        and adds a "fontSize" mark to the editor. If the action is neither "increase" nor
+        "decrease", it sets the font size to the input size and adds a "fontSize" mark to the
+        editor. The function uses the Editor.addMark method to add the "fontSize" mark */
         if (action === "increase") {
             if (fontSize < 50) {
                 setFontSize((previous) => previous + 1)
@@ -297,6 +369,10 @@ module.exports = {
         }
 
     },
+    /* The below code is a JavaScript function that takes two parameters: `color` and `setBackground`.
+    It sets the background color of an element to the hexadecimal value of the `color` parameter.
+    The `color` parameter is an object that contains the hexadecimal value of the selected color.
+    The `setBackground` parameter is a function that sets the background color of an element. */
     backgroundChange : (color,setBackground) => {
         setBackground(color.hex)
     
