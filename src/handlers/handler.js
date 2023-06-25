@@ -268,6 +268,10 @@ module.exports = {
         console.log(color);
         Editor.addMark(editor, 'color', color.hex);
     
+      },
+     highlightChange : (color,setHighlight,editor) => {
+        setHighlight(color.hex)
+        Editor.addMark(editor, 'backgroundColor', color.hex);
       }
 
 }

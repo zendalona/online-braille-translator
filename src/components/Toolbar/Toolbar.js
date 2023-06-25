@@ -4,7 +4,7 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor, Range } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-import { downloadClick, fontColorChange, newClick, redoClick, undoClick } from '@/handlers/handler';
+import { downloadClick, fontColorChange, highlightChange, newClick, redoClick, undoClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
@@ -22,10 +22,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
   
 
-  const highlightChange = (color) => {
-    setHighlight(color.hex)
-    Editor.addMark(editor, 'backgroundColor', color.hex);
-  }
+  
 
   const backgroundChange = (color) => {
     setBackground(color.hex)
@@ -151,7 +148,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
       </div>
       {fontColorPicker && <div className={styles.colorPicker}> <ChromePicker color={fontColor} onChange={(color) => fontColorChange(color,setFontColor,editor)} /> </div>}
-      {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color)} /> </div>}
+      {highlightColorPicker && <div className={styles.colorPicker}> <ChromePicker color={highlight} onChange={(color) => highlightChange(color,setHighlight,editor)} /> </div>}
       {backgroundPicker && <div className={styles.colorPicker}> <ChromePicker color={background} onChange={(color) => backgroundChange(color)} /> </div>}
       {showFileUpload && <FileUpload setShowFileUpload={setShowFileUpload} />}
 
