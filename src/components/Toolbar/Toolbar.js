@@ -4,7 +4,7 @@ import styles from '../../styles/Toolbar.module.css'
 import { ChromePicker } from 'react-color';
 import { Editor, Range } from 'slate';
 import { useFocused, useSelected, useSlate } from 'slate-react';
-import { downloadClick, fontColorChange, highlightChange, newClick, redoClick, undoClick } from '@/handlers/handler';
+import { downloadClick, fontColorChange, fontSizeChange, highlightChange, newClick, redoClick, undoClick } from '@/handlers/handler';
 import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
@@ -29,30 +29,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
   }
 
-  const fontSizeChange = (action, size) => {
-    if (action === "increase") {
-      if (fontSize < 50) {
-        setFontSize((previous) => previous + 1)
-        Editor.addMark(editor, 'fontSize', fontSize + 1);
-      }
-    } else if (action === "decrease") {
-      if (fontSize > 10) {
-        setFontSize((previous) => previous - 1)
-        Editor.addMark(editor, 'fontSize', fontSize - 1);
-      }
-    } else {
-      size = Number(size)
-
-
-
-      setFontSize(size)
-
-      Editor.addMark(editor, 'fontSize', size);
-
-
-    }
-
-  }
+  
 
 
 
@@ -135,9 +112,9 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>
-          <div><button onClick={() => fontSizeChange('decrease', null)} aria-label={`${name} decrease font size`} title="Decrease font size"><i className="fas fa-minus"></i></button></div>
-          <div><input aria-label={`${name} font size`} className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value)} /></div>
-          <div><button onClick={() => fontSizeChange('increase', null)} aria-label={`${name} increase font size`} title="Increase font size"><i className="fas fa-plus"></i></button></div>
+          <div><button onClick={() => fontSizeChange('decrease', null,fontSize, setFontSize, editor)} aria-label={`${name} decrease font size`} title="Decrease font size"><i className="fas fa-minus"></i></button></div>
+          <div><input aria-label={`${name} font size`} className={styles.fontSize} value={fontSize} onChange={(e) => fontSizeChange('custom', e.target.value,fontSize, setFontSize, editor)} /></div>
+          <div><button onClick={() => fontSizeChange('increase', null,fontSize, setFontSize, editor)} aria-label={`${name} increase font size`} title="Increase font size"><i className="fas fa-plus"></i></button></div>
         </div>
 
         <div className={`${styles.toolContainer} pe-2`}>

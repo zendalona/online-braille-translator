@@ -243,7 +243,7 @@ module.exports = {
     redoClick: (editor) => {
         editor.redo()
     },
-    translateClick: (textEditor,text,socket,setLoading,language) => {
+    translateClick: (textEditor, text, socket, setLoading, language) => {
         const { selection } = textEditor
         //console.log(selection);
         const check = Range.isCollapsed(selection);
@@ -263,16 +263,40 @@ module.exports = {
             setLoading(true)
         })
     },
-    fontColorChange :(color,setFontColor,editor) => {
+    fontColorChange: (color, setFontColor, editor) => {
         setFontColor(color.hex)
         console.log(color);
         Editor.addMark(editor, 'color', color.hex);
-    
-      },
-     highlightChange : (color,setHighlight,editor) => {
+
+    },
+    highlightChange: (color, setHighlight, editor) => {
         setHighlight(color.hex)
         Editor.addMark(editor, 'backgroundColor', color.hex);
-      }
+    },
+    fontSizeChange: (action, size, fontSize, setFontSize, editor) => {
+        if (action === "increase") {
+            if (fontSize < 50) {
+                setFontSize((previous) => previous + 1)
+                Editor.addMark(editor, 'fontSize', fontSize + 1);
+            }
+        } else if (action === "decrease") {
+            if (fontSize > 10) {
+                setFontSize((previous) => previous - 1)
+                Editor.addMark(editor, 'fontSize', fontSize - 1);
+            }
+        } else {
+            size = Number(size)
+
+
+
+            setFontSize(size)
+
+            Editor.addMark(editor, 'fontSize', size);
+
+
+        }
+
+    }
 
 }
 
