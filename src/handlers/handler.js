@@ -1,5 +1,5 @@
 const { default: axios } = require("axios");
-const { Transforms, Editor, Node } = require("slate");
+const { Transforms, Editor, Node, Range } = require("slate");
 const { ReactEditor } = require("slate-react");
 
 module.exports = {
@@ -40,15 +40,15 @@ module.exports = {
 
 
     },
-    
-   /* The `downloadClick` function is creating a downloadable file from the contents of the Slate
-   editor. It takes the `data` parameter, which is an array of nodes representing the contents of
-   the editor. The function first converts the nodes to plain text using the `Node.string()` method
-   and joins them with newline characters. It then creates a Blob object containing the plain text
-   content and creates a URL object that points to the Blob. This URL is used to create a link
-   element with a `download` attribute set to "editor_content.txt", which triggers the download of
-   the file when clicked. Finally, the temporary URL and link element are cleaned up using
-   `URL.revokeObjectURL()` and `document.body.removeChild()`. */
+
+    /* The `downloadClick` function is creating a downloadable file from the contents of the Slate
+    editor. It takes the `data` parameter, which is an array of nodes representing the contents of
+    the editor. The function first converts the nodes to plain text using the `Node.string()` method
+    and joins them with newline characters. It then creates a Blob object containing the plain text
+    content and creates a URL object that points to the Blob. This URL is used to create a link
+    element with a `download` attribute set to "editor_content.txt", which triggers the download of
+    the file when clicked. Finally, the temporary URL and link element are cleaned up using
+    `URL.revokeObjectURL()` and `document.body.removeChild()`. */
     downloadClick: (data) => {
         //console.log(data);
         var plainText = data.map(n => Node.string(n)).join('\n')
@@ -207,7 +207,7 @@ module.exports = {
             })
             ReactEditor.focus(editor);
             index.current = -1
-            result.current=[]
+            result.current = []
         }
 
     },
@@ -225,23 +225,44 @@ module.exports = {
                     },
                 })
                 index.current = -1
-                if (i <len) {
+                if (i < len) {
                     module.exports.findNext(index, result, search, setIsFound, editor)
                     i = i + 1
                 } else {
                     break;
                 }
             }
-            result.current=[]
+            result.current = []
 
         }
 
     },
-    undoClick:(editor)=>{
+    undoClick: (editor) => {
         editor.undo()
     },
-    redoClick:(editor)=>{
+    redoClick: (editor) => {
         editor.redo()
+    },
+    translateClick: (textEditor,text,socket,setLoading,language) => {
+        const { selection } = textEditor
+        //console.log(selection);
+        const check = Range.isCollapsed(selection);
+        console.log(check);
+
+        if (check) {
+            var plainText = text.map(n => Node.string(n)).join('')
+            console.log(plainText);
+        }
+        else {
+            var plainText = Editor.string(textEditor, selection)
+            console.log(plainText);
+        }
+
+
+        socket.emit('translate', { text: plainText, language: language }, () => {
+            setLoading(true)
+        })
     }
+
 }
 

@@ -7,7 +7,7 @@ import axios from 'axios'
 import { Editable, ReactEditor, Slate, useSlate, withReact } from 'slate-react'
 import styles from '../../styles/TextEditor.module.css'
 import Toolbar from '../Toolbar/Toolbar'
-import { searchWord } from '@/handlers/handler'
+import { searchWord, translate, translateClick } from '@/handlers/handler'
 import Find from '../Find/Find'
 import FileAndReplace from '../FileAndReplace/FileAndReplace'
 import Loading from '../LoadingScreen/Loading'
@@ -45,43 +45,7 @@ function TextEditor({ brailleEditor }) {
     }
 
     const handleClick = () => {
-        const { selection } = textEditor
-        //console.log(selection);
-        const check = Range.isCollapsed(selection);
-        console.log(check);
-
-        if (check) {
-            var plainText = text.map(n => Node.string(n)).join('')
-            console.log(plainText);
-        }
-        else {
-            var plainText = Editor.string(textEditor, selection)
-            console.log(plainText);
-        }
-
-
-        socket.emit('translate', { text: plainText, language: language }, () => {
-            setLoading(true)
-        })
-
-
-
-
-
-
-
-
-        // axios.post('/api/translate', { text: text, language: language }).then(({data}) => {
-        //     console.log(data);
-
-        //     
-
-
-        // })
-
-        // console.log(text);
-        // const plainText = text.map(n => Node.string(n)).join('\n')
-        // console.log(plainText);
+        translateClick(textEditor, text, socket, setLoading,language)
 
     };
 
@@ -101,10 +65,10 @@ function TextEditor({ brailleEditor }) {
     }, [])
 
     useUpdateEffect(() => {
-        if(!loading){
+        if (!loading) {
             setTimeout(() => {
                 alert("Translation completed")
-                
+
             }, 0);
         }
 
@@ -132,8 +96,8 @@ function TextEditor({ brailleEditor }) {
             // }
             Editor.withoutNormalizing(brailleEditor, () => {
                 Transforms.insertText(brailleEditor, datas, {
-                            at: selection ? selection.anchor : Editor.end(brailleEditor, [])
-                        })
+                    at: selection ? selection.anchor : Editor.end(brailleEditor, [])
+                })
             })
             setLoading(false)
 
@@ -238,17 +202,17 @@ function TextEditor({ brailleEditor }) {
                     </Slate>
                     <div className={`${styles.editorFooter} px-3 py-2`} >
                         <div className='col-6'>
-                        <label className="me-2">Language</label>
+                            <label className="me-2">Language</label>
                             <select className='col-12' autoFocus={true} onChange={(event) => selectLanguage(event.target.value)}>
-                            <option value="" defaultValue>Select a language</option>
-                            {
-                                languagesList.map((list, index) => {
-                                    return <option value={list.table}>{list.language}</option>
-                                })
-                            }
+                                <option value="" defaultValue>Select a language</option>
+                                {
+                                    languagesList.map((list, index) => {
+                                        return <option value={list.table}>{list.language}</option>
+                                    })
+                                }
 
 
-                        </select></div><button ref={translateRef} className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
+                            </select></div><button ref={translateRef} className="btn btn-primary btn-sm" disabled={isDisabled} type="button" onClick={handleClick}>Translate</button>
                     </div>
                     {showFind && <Find editor={textEditor} search={search} setSearch={setSearch} setShowFind={setShowFind} />}
                     {showReplace && <FileAndReplace editor={textEditor} search={search} setSearch={setSearch} setShowReplace={setShowReplace} />}
