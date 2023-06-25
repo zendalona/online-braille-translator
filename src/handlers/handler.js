@@ -262,7 +262,13 @@ module.exports = {
         socket.emit('translate', { text: plainText, language: language }, () => {
             setLoading(true)
         })
-    }
+    },
+    fontColorChange :(color,setFontColor,editor) => {
+        setFontColor(color.hex)
+        console.log(color);
+        Editor.addMark(editor, 'color', color.hex);
+    
+      }
 
 }
 
