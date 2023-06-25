@@ -41,6 +41,8 @@ module.exports = {
 
     },
 
+
+
     /* The `downloadClick` function is creating a downloadable file from the contents of the Slate
     editor. It takes the `data` parameter, which is an array of nodes representing the contents of
     the editor. The function first converts the nodes to plain text using the `Node.string()` method
@@ -71,6 +73,9 @@ module.exports = {
         document.body.removeChild(link);
 
     },
+
+
+
     /* `inputChange` is a function that takes an `event` object and a `setSelectFile` function as its
     parameters. It is used to handle changes to a file input element in the user interface. */
     inputChange: (event, setSelectFile) => {
@@ -78,6 +83,8 @@ module.exports = {
 
     }
     ,
+
+
     /* `fileSubmit` is a function that takes three parameters: `editor`, `selectFile`, and
     `setShowFileUpload`. It is used to handle the submission of a file uploaded by the user. */
     fileSubmit: (editor, selectFile, setShowFileUpload) => {
@@ -109,7 +116,10 @@ module.exports = {
 
 
     },
-    /* It is a JavaScript function that searches for a given word in the text content of a
+
+
+
+    /* The below code is a JavaScript function that searches for a given word in the text content of a
     Slate.js editor. It uses the `Editor.nodes` method to iterate over all the nodes in the editor
     and checks if the node has a `text` property. If it does, it searches for the given word using a
     regular expression with the `matchAll` method and pushes the results (path, start index, and
@@ -130,9 +140,7 @@ module.exports = {
 
     },
 
-    /* It is a function called `findEnter` that takes in several parameters including an
-    event, an index, a result, a search term, a state setter function, and an editor object. The
-    function is triggered when the user presses the "Enter" key. */
+    
     findEnter: (event, index, result, search, setIsFound, editor) => {
 
         /* It is checking if the key pressed is the "Enter" key. If it is, it prevents the
@@ -150,7 +158,7 @@ module.exports = {
                 setIsFound(true)
             }
             index.current = 0
-           
+
             if (result.current.length > 0) {
                 console.log(editor);
                 index.current = 0
@@ -163,8 +171,9 @@ module.exports = {
 
         }
     },
-    /* It is a function called `findNext` that takes in five parameters: `index`, `result`,
-    `search`, `setIsFound`, and `editor`. */
+
+   
+
     findNext: (index, result, search, setIsFound, editor) => {
         /* The below code is checking if the current index is -1. If it is, it searches for a word in
         the editor using the searchWord function from the module.exports object. If the search
@@ -194,7 +203,9 @@ module.exports = {
 
 
     },
-    
+
+
+
     findPrev: (index, result, search, setIsFound, editor) => {
         /* The below code is checking if the current index is equal to -1. If it is, it searches for a
         word in an editor using a function called `searchWord` from a module and sets a state
@@ -213,11 +224,11 @@ module.exports = {
             index.current = index.current - 1
         }
 
-       /* The below code is selecting a specific range of text in a Slate.js editor based on the
-       current index. If the current index is less than 0, it sets the index to the last item in the
-       result array. Then, it uses the Transforms.select() method to select the text range based on
-       the path, start, and length properties of the current item in the result array. Finally, it
-       focuses the editor on the selected text range using ReactEditor.focus(). */
+        /* The below code is selecting a specific range of text in a Slate.js editor based on the
+        current index. If the current index is less than 0, it sets the index to the last item in the
+        result array. Then, it uses the Transforms.select() method to select the text range based on
+        the path, start, and length properties of the current item in the result array. Finally, it
+        focuses the editor on the selected text range using ReactEditor.focus(). */
         if (index.current < 0) {
             index.current = result.current.length - 1
         }
@@ -229,7 +240,9 @@ module.exports = {
 
 
     },
-    
+
+
+
     wordReplace: (index, result, replace, setIsFound, editor) => {
         /* The below code is checking if the current index is equal to -1. If it is, it sets the value
         of isFound to false. If the current index is not equal to -1, it uses the
@@ -251,15 +264,18 @@ module.exports = {
         }
 
     },
+
+
+    
     replaceAll: (index, result, replace, setIsFound, editor, search) => {
-       /* The below code is  that replaces all occurrences of a search string in a
-       text editor with a specified replacement string. It uses the `Transforms.insertText` method
-       to insert the replacement string at the location of each occurrence of the search string. The
-       function takes in several parameters, including the current index of the search string, an
-       array of search results, the search string itself, a state variable to indicate whether any
-       matches were found, and the editor object. It loops through the array of search results and
-       inserts the replacement string at each location, updating the index and result arrays as it
-       goes */
+        /* The below code is  that replaces all occurrences of a search string in a
+        text editor with a specified replacement string. It uses the `Transforms.insertText` method
+        to insert the replacement string at the location of each occurrence of the search string. The
+        function takes in several parameters, including the current index of the search string, an
+        array of search results, the search string itself, a state variable to indicate whether any
+        matches were found, and the editor object. It loops through the array of search results and
+        inserts the replacement string at each location, updating the index and result arrays as it
+        goes */
         if (index.current == -1) {
             setIsFound(false)
         } else {
@@ -285,24 +301,29 @@ module.exports = {
         }
 
     },
-   /* The below code is defining a function called `undoClick` that takes an `editor` parameter. When
-   this function is called, it will call the `undo()` method on the `editor` object, which will undo
-   the last action performed in the editor. */
+
+
+    /* The below code is defining a function called `undoClick` that takes an `editor` parameter. When
+    this function is called, it will call the `undo()` method on the `editor` object, which will undo
+    the last action performed in the editor. */
     undoClick: (editor) => {
         editor.undo()
     },
+
+
     /* The below code is defining a function called `redoClick` that takes an `editor` parameter. When
     this function is called, it will call the `redo()` method on the `editor` object, which will
     redo the last undone action in the editor. */
     redoClick: (editor) => {
         editor.redo()
     },
-    
+
+
     translateClick: (textEditor, text, socket, setLoading, language) => {
-       /* The below code is a JavaScript code that checks if there is a selection in a text editor. If
-       there is a selection, it gets the plain text of the selected text. If there is no selection,
-       it gets the plain text of the entire text. Then it emits a socket event with the plain text
-       and the selected language to be translated. Finally, it sets the loading state to true. */
+        /* The below code is a JavaScript code that checks if there is a selection in a text editor. If
+        there is a selection, it gets the plain text of the selected text. If there is no selection,
+        it gets the plain text of the entire text. Then it emits a socket event with the plain text
+        and the selected language to be translated. Finally, it sets the loading state to true. */
         const { selection } = textEditor
         //console.log(selection);
         const check = Range.isCollapsed(selection);
@@ -322,23 +343,31 @@ module.exports = {
             setLoading(true)
         })
     },
+
+
     fontColorChange: (color, setFontColor, editor) => {
-       /* The below code is written in JavaScript and it is setting the font color of some text to the
-       hexadecimal value of the `color` variable.  Additionally, it is adding a mark to the editor with the name 'color' and the value
-       of the `color` variable. */
+        /* The below code is written in JavaScript and it is setting the font color of some text to the
+        hexadecimal value of the `color` variable.  Additionally, it is adding a mark to the editor with the name 'color' and the value
+        of the `color` variable. */
         setFontColor(color.hex)
         //console.log(color);
-        
+
         Editor.addMark(editor, 'color', color.hex);
 
     },
+
+
+
     highlightChange: (color, setHighlight, editor) => {
-       /* The below code is likely a part of a JavaScript function that sets the highlight color of a
-       text editor. It takes a color value in hexadecimal format as an argument and adds a
-       background color mark to the editor using that color value. */
+        /* The below code is likely a part of a JavaScript function that sets the highlight color of a
+        text editor. It takes a color value in hexadecimal format as an argument and adds a
+        background color mark to the editor using that color value. */
         setHighlight(color.hex)
         Editor.addMark(editor, 'backgroundColor', color.hex);
     },
+
+
+
     fontSizeChange: (action, size, fontSize, setFontSize, editor) => {
         /* It is a JavaScript function that takes an action and a font size as input
         parameters. If the action is "increase", it increases the font size by 1 and adds a
@@ -369,14 +398,17 @@ module.exports = {
         }
 
     },
+
+
+
     /* The below code is a JavaScript function that takes two parameters: `color` and `setBackground`.
     It sets the background color of an element to the hexadecimal value of the `color` parameter.
     The `color` parameter is an object that contains the hexadecimal value of the selected color.
     The `setBackground` parameter is a function that sets the background color of an element. */
-    backgroundChange : (color,setBackground) => {
+    backgroundChange: (color, setBackground) => {
         setBackground(color.hex)
-    
-      }
+
+    }
 
 }
 
