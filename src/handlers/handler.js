@@ -296,7 +296,11 @@ module.exports = {
 
         }
 
-    }
+    },
+    backgroundChange : (color,setBackground) => {
+        setBackground(color.hex)
+    
+      }
 
 }
 
