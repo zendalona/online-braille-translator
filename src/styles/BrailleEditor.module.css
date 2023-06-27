@@ -1,6 +1,6 @@
 
 .brailleEditor {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 88px);
     display: flex;
     flex-flow: column;
     background: var(--primary-color);
