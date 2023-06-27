@@ -34,8 +34,8 @@ export const socketContext = createContext()
 export const shortcutContext = createContext()
 
 export default function Home() {
-  const [text, setText] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
-  const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "", color: '#000000', fontSize: 16 }] }])
+  const [text, setText] = useState([{ type: "paragraph", children: [{ text: "", color: "var(--fcolor)", fontSize: 16 }] }])
+  const [braille, setBraille] = useState([{ type: "paragraph", children: [{ text: "", color: "var(--fcolor)", fontSize: 16 }] }])
   const [active, setActive] = useState('')
   const socket = useRef()
   const [textEditorFocus, setTextEditorFocus] = useState(false)

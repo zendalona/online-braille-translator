@@ -21,10 +21,12 @@
     border-width: 1px;
     border-style: solid;
     overflow-y: scroll;
+    border-color: var(--fcolor);
   }
 
 
 .editorFooter {
     display: flex;
     justify-content: space-between;
+    color: var(--fcolor);
   }

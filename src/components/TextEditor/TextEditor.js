@@ -44,7 +44,7 @@ function TextEditor({ brailleEditor }) {
     const [fontColorPicker, setFontColorPicker] = useState(false)
     const [highlightColorPicker, setHighlightColorPicker] = useState(false)
     const [backgroundPicker, setBackgroundPicker] = useState(false)
-    const [background, setBackground] = useState("#ffffff")
+    const [background, setBackground] = useState("")
     const [language, setLanguage] = useState("")
     const [isDisabled, setIsDisabled] = useState(true)
     const [showFind, setShowFind] = useState(false)
@@ -197,7 +197,7 @@ function TextEditor({ brailleEditor }) {
 
     return (
         <>
-            <div className="col-12 col-sm-6 px-2">
+            <div className="col-12 col-sm-6">
 
                 <div className={styles.textEditor}>
 

@@ -51,7 +51,7 @@ module.exports = {
         const resetValue = [
             {
                 type: 'paragraph',
-                children: [{ text: "", color: '#000000', fontSize: 16 }],
+                children: [{ text: "", color: 'var(--fcolor)', fontSize: 16 }],
             },
         ];
         /* `Transforms.insertNodes(editor, resetValue)` is a function call that inserts a new set of

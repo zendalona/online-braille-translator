@@ -33,7 +33,7 @@ import FileUpload from '../FileUpload/FileUpload';
 
 function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPicker, setHighlightColorPicker,
   background, setBackground, backgroundPicker, setBackgroundPicker, setShowFind, setShowReplace, name }) {
-  const [fontColor, setFontColor] = useState("#000000")
+  const [fontColor, setFontColor] = useState("var(--fcolor)")
   const [highlight, setHighlight] = useState("")
   const [fontSize, setFontSize] = useState(16)
   const [showFileUpload, setShowFileUpload] = useState(false)
@@ -114,9 +114,9 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
             <div className={styles.colorIndicate} style={{ background: highlight }}></div>
           </i></button></div>
 
-          <div><button onClick={() => setBackgroundPicker(!backgroundPicker)} aria-label={`${name} background color`} title="background color"><svg class="bi bi-palette-fill tool-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+          <div><button onClick={() => setBackgroundPicker(!backgroundPicker)} aria-label={`${name} background color`} title="background color"><i><svg class="bi bi-palette-fill tool-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
             <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07zM8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
-          </svg></button></div>
+          </svg></i></button></div>
 
         </div>
         <div className={`${styles.toolContainer} pe-2`}>

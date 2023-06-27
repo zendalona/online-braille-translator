@@ -1,15 +1,20 @@
 
 
 :root {
-  --bg:#ECF0F1;
-  --primary-color: #FFFFFF;
-  --secondary-color: #0D6EFD;
-  --fcolor:#000000;
+  /* --bg:#ECF0F1; */
+  /* --primary-color: #FFFFFF; */
+  /* --secondary-color: #0D6EFD; */
+  --fcolor:#ffffff;
+  --bg:RGB(10,25,47);
+  --primary-color:#172A46;
+  --secondary-color:RGB(10,25,47)
+
   
 }
 
 i{
-  font-size: 16px;
+  font-size: 14px;
+  color: var(--fcolor);
 }
 a{
   color:var(--fcolor);
@@ -26,4 +31,26 @@ body{
 
 input[type=number]::-webkit-inner-spin-button {
   opacity: 1
+}
+
+h6{
+  color:var(--fcolor);
+}
+.btn-primary{
+  background-color: var(--bg) !important;
+}
+
+::-webkit-scrollbar {
+  background-color:var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:var(--bg);
+ 
+  
+}
+
+input{
+  background-color: var(--primary-color);
+  color: var(--fcolor);
 }

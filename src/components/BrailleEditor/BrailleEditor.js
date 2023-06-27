@@ -37,7 +37,7 @@ function BrailleEditor({ brailleEditor }) {
     const [fontColorPicker, setFontColorPicker] = useState(false)
     const [highlightColorPicker, setHighlightColorPicker] = useState(false)
     const [backgroundPicker, setBackgroundPicker] = useState(false)
-    const [background, setBackground] = useState("#ffffff")
+    const [background, setBackground] = useState("")
     const [showFind, setShowFind] = useState(false)
     const [showReplace, setShowReplace] = useState(false)
     const [search, setSearch] = useState(null)
@@ -121,7 +121,7 @@ function BrailleEditor({ brailleEditor }) {
         return <span {...attributes} style={{ ...leaf }}>{children}</span>
     }
     return (<>
-        <div className="col-12 col-sm-6 px-2">
+        <div className="col-12 col-sm-6">
 
             <div className={`${styles.brailleEditor} pb-1`}>
 
