@@ -127,7 +127,7 @@ function Toolbar({ state, fontColorPicker, setFontColorPicker, highlightColorPic
 
         <div className={`${styles.toolContainer} pe-2`}>
           <div><button onClick={() => setShowFind((prev) => !prev)} aria-label={`${name} find`} title="Find"><i className="fas fa-search"></i></button></div>
-          <div><button onClick={() => setShowReplace((prev) => !prev)} aria-label={`${name} find and replace`} title="Find And Replace"><i className="fas fa-search"></i></button></div>
+          <div><button onClick={() => setShowReplace((prev) => !prev)} aria-label={`${name} find and replace`} title="Find And Replace"><i className="fas fa-pencil-alt"></i></button></div>
 
         </div>
 
