@@ -64,9 +64,9 @@ app.prepare().then(() => {
         socket.on('translate', (data, ack) => {
             ack()
             console.log(data);
-            textToBraille(data, (brailleText) => {
-                console.log("callback");
-                socket.emit('result', brailleText)  //callback
+            textToBraille(data).then((brailleText) => {
+                console.log("resolve called");
+                socket.emit('result', brailleText)  
             })
 
         })
