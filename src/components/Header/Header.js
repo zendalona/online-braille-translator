@@ -26,6 +26,7 @@
 import React from 'react'
 import Logo from '../Logo/Logo'
 import styles from '../../styles/Header.module.css'
+import Link from 'next/link'
 
 function Header() {
   return (
@@ -34,8 +35,8 @@ function Header() {
         <div className="pt-2 container-fluid" style={{ display: "flex" }}>
           <Logo />
           <div className={`col-6 ${styles.headerNav} pe-5`}>
-            <a href='/'> Home</a>
-            <a href='/about'>About</a>
+            <Link href='/'> Home</Link>
+            <Link href='/about'>About</Link>
           </div>
         </div>
       </div>
