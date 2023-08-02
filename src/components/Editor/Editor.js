@@ -30,20 +30,20 @@ import styles from '../../styles/Editor.module.css'
 import BrailleEditor from '../BrailleEditor/BrailleEditor'
 import TextEditor from '../TextEditor/TextEditor'
 function Editor() {
-   // const [component, setComponent] = useState(null)
+    const [component, setComponent] = useState(null)
     const brailleEditor = useMemo(() => withHistory(withReact(createEditor())), [])
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     setComponent([, ])
+        setComponent([ <TextEditor brailleEditor={brailleEditor} />, <BrailleEditor brailleEditor={brailleEditor} />])
 
-    // }, [])
+    }, [])
 
     return (<>
         <section className="container-fluid py-4">
             <div className={styles.editorBox}>
 
-            <TextEditor brailleEditor={brailleEditor} />
-            <BrailleEditor brailleEditor={brailleEditor} />
+           {component}
+            
 
             </div>
         </section></>
