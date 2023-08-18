@@ -28,3 +28,13 @@
   justify-content: space-between; */
   color: var(--fcolor);
 }
+
+.textField::-webkit-scrollbar {
+  background-color:var(--primary-color);
+}
+
+.textField::-webkit-scrollbar-thumb {
+  background-color:var(--bg);
+ 
+  
+}

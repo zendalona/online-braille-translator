@@ -40,15 +40,7 @@ h6,p{
   background-color: var(--bg) !important;
 }
 
-::-webkit-scrollbar {
-  background-color:var(--primary-color);
-}
 
-::-webkit-scrollbar-thumb {
-  background-color:var(--bg);
- 
-  
-}
 
 input{
   background-color: var(--primary-color);
