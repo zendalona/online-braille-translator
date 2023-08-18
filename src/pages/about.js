@@ -39,7 +39,7 @@ export default function about() {
                 <h6 className="mt-4">Credits</h6>
                 <p>Created and Documented by Jithesh M</p>
                 <p>Artwork by</p>
-                <p>Nalin Sathyan<br /> Dr.Saritha Namboodiri<br /> Subha I N<br /> Bhavya P V<br /> K.Sathyaseelan</p>
+                <p className={styles.list}>Nalin Sathyan<br /> Dr.Saritha Namboodiri<br /> Subha I N<br /> Bhavya P V<br /> K.Sathyaseelan</p>
             </div>
         </div>
 
