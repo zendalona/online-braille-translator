@@ -1,38 +1,106 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Online Braille Translator
+
+
+
+
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Translating Text to Braille](#translating-text-to-braille)
+  - [Customizing the Interface](#customizing-the-interface)
+  - [Setting Line Limits](#setting-line-limits)
+  - [Direct Braille Typing](#direct-braille-typing)
+- [Project Information](#project-information)
+
+## Features
+
+- **Multilingual Support**: Translator covers 40+ languages, even with unique Braille contractions.
+- **Text Editing Tools**: Access standard text tools: cut, copy, paste, undo, redo, and a quick search for easy word changes.
+- **Document Handling**: Create or open documents, and when done, download it.
+- **Customise the interface for your comforts**: You can increase your reading comforts by adjusting font size and choosing text and background colors for your comfort.
+- **Select and translate**: A particular portion of a file can be selected and translated.
+- **Line limit**: Adjust Braille line length to your needs effortlessly.
+- **Direct Braille Typing**: If you know Braille well, you can type it directly using just six keys on your keyboard.
+- **Separate Tools**: You have separate tools for both regular text editing and Braille editing, all easily accessible at your fingertips.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Before running the Online Braille Translator, make sure you have the following prerequisites installed:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js: [Download and Install Node.js](https://nodejs.org/)
+- Python 
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Installation
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Clone this repository to your local machine:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   git clone https://github.com/zendalona/online-braille-translator.git
+   ```
 
-## Learn More
+2. Navigate to the project directory:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   cd online-braille-translator
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Install dependencies:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash
+   npm install
+   ```
+4. To run the development server:
+    ```bash
+     npm run dev
+    ```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   
+
+6. Access the application in your web browser at `http://localhost:3000`.
+
+## Usage
+
+### Translating Text to Braille
+
+1. Upon opening the application, you'll see two text areas: one for input and one for the translated Braille.
+
+2. Choose the target language from the language combo-box.
+
+3. Set the desired line length for Braille output to fit your preferences.
+
+4. Type or paste the text you want to translate into the input area.
+
+5. Click 'Translate,' and your text will be transformed into Braille in the second text box.
+
+### Customizing the Interface
+
+- You can customize the font style, color, and background to enhance readability and make your experience more comfortable.
+
+### Setting Line Limits
+
+- Use the spin button at the bottom of the Braille editor to set the desired number of lines for your Braille output. 
+
+### Direct Braille Typing
+
+For those who know Braille well, you can type it directly using just six keys on your keyboard.
+
+Uses f,d,s,j,k,l keys for typing six braille dots.
+
+
+## Project Information
+
+- **Frontend**: Built using Next.js
+- **Backend**: Built using Express.js
+- **Data Transfer**: Socket.io is used to transfer data from the frontend to the backend.
+
+For more details on the project setup, configuration, and development, please refer to the project's code and documentation.
