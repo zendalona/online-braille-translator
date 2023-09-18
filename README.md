@@ -101,6 +101,7 @@ Uses f,d,s,j,k,l keys for typing six braille dots.
 
 - **Frontend**: Built using Next.js
 - **Backend**: Built using Express.js
+- **Translation Engine**: Liblouis
 - **Data Transfer**: Socket.io is used to transfer data from the frontend to the backend.
 
 For more details on the project setup, configuration, and development, please refer to the project's code and documentation.
