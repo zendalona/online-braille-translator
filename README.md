@@ -34,8 +34,17 @@
 
 Before running the Online Braille Translator, make sure you have the following prerequisites installed:
 
-- Node.js: [Download and Install Node.js](https://nodejs.org/)
-- Python 
+- Node.js and npm: 
+  - To install (if not already installed):
+   ```bash
+   sudo apt-get update
+   sudo apt-get install nodejs npm
+   ```
+- Python3, Liblouis and Python3-louis
+   - To install  (if not already installed):
+   ```bash
+   sudo apt-get install python3 liblouis20 python3-louis
+   ```
 
 
 ### Installation
@@ -61,12 +70,15 @@ Before running the Online Braille Translator, make sure you have the following p
     ```bash
      npm run dev
     ```
+    Access the application in your web browser at `http://localhost:3000`.
 
+   OR
 
-
-   
-
-6. Access the application in your web browser at `http://localhost:3000`.
+   For production:
+   ```bash
+   npm run build
+   npm start
+   ```
 
 ## Usage
 
