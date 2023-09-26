@@ -31,7 +31,9 @@ const { textToBraille } = require('./helpers/translate');
 const { Node } = require('slate');
 const path = require('path');
 const fs = require('fs');
-
+const passport = require('passport')
+const session = require('express-session')
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var fileUpload = require('express-fileupload');
 
 
@@ -52,6 +54,39 @@ app.prepare().then(() => {
 
     server.use(express.json({ limit: '50mb' }));
     server.use(fileUpload())
+
+    server.use(session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: true,
+    }))
+
+    server.use(passport.initialize())
+    server.use(passport.session())
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: `${process.env.BASE_URL}/auth/google/callback`
+    },
+        function (accessToken, refreshToken, profile, cb) {
+            console.log(profile);
+            var user = {
+                id: profile.id,
+                name: profile.displayName,
+                provider: profile.provider
+            }
+            return cb(null, user);
+
+        }
+    ));
+
+    passport.serializeUser((userObj, done) => {
+        done(null, userObj)
+    })
+    passport.deserializeUser((userObj, done) => {
+        done(null, userObj)
+    })
+
     const httpServer = http.createServer(server);
     const io = socketIO(httpServer, {
         maxHttpBufferSize: 1e8
@@ -66,7 +101,7 @@ app.prepare().then(() => {
             console.log(data);
             textToBraille(data).then((brailleText) => {
                 console.log("resolve called");
-                socket.emit('result', brailleText)  
+                socket.emit('result', brailleText)
             })
 
         })
@@ -94,6 +129,26 @@ app.prepare().then(() => {
 
 
         }
+
+    })
+    server.get('/auth/google',
+        passport.authenticate('google', { scope: ['profile'] }));
+
+    server.get('/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function (req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
+
+
+    server.get("/logout", (req, res) => {
+        req.logOut(function (err) {
+            if (err) { return next(err); }
+            res.redirect('/login');
+            console.log(req.user)
+        })
+
 
     })
 
