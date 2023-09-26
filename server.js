@@ -69,7 +69,7 @@ app.prepare().then(() => {
         callbackURL: `${process.env.BASE_URL}/auth/google/callback`
     },
         function (accessToken, refreshToken, profile, cb) {
-            console.log(profile);
+            //console.log(profile);
             var user = {
                 id: profile.id,
                 name: profile.displayName,
@@ -98,9 +98,9 @@ app.prepare().then(() => {
 
         socket.on('translate', (data, ack) => {
             ack()
-            console.log(data);
+            //console.log(data);
             textToBraille(data).then((brailleText) => {
-                console.log("resolve called");
+                //console.log("resolve called");
                 socket.emit('result', brailleText)
             })
 
@@ -118,7 +118,7 @@ app.prepare().then(() => {
 
 
     server.post('/api/upload', (req, res) => {
-        console.log(req.files.file);
+        //console.log(req.files.file);
         if (!req.files || !req.files.file) {
             console.log("no file");
         }
@@ -146,7 +146,7 @@ app.prepare().then(() => {
         req.logOut(function (err) {
             if (err) { return next(err); }
             res.redirect('/login');
-            console.log(req.user)
+            //console.log(req.user)
         })
 
 

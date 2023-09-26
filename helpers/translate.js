@@ -35,7 +35,7 @@ module.exports = {
       pyshell.send(newData);
       pyshell.on('message', function (message) {
         // received a message sent from the Python script
-        console.log("server hello");
+        //console.log("server hello");
         resolve(message)
       });
       pyshell.end(function (err, code, signal) {
