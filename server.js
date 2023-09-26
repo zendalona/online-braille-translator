@@ -127,11 +127,21 @@ app.prepare().then(() => {
 
 
 
+    const sessionCheck=(req,res,next)=>{
+        if(req.isAuthenticated()){
+            next();
+        }
+        else{
+            console.log("not authenticated");
+            res.redirect('/login');
+        }
+    }
+
     //server.use(bodyParser.json());
 
 
 
-    server.post('/api/upload', (req, res) => {
+    server.post('/api/upload',sessionCheck, (req, res) => {
         //console.log(req.files.file);
         if (!req.files || !req.files.file) {
             console.log("no file");
@@ -156,7 +166,7 @@ app.prepare().then(() => {
         });
 
 
-    server.get("/logout", (req, res) => {
+    server.get("/logout" ,sessionCheck, (req, res) => {
         req.logOut(function (err) {
             if (err) { return next(err); }
             res.redirect('/login');
