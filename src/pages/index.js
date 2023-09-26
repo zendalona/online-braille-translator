@@ -24,6 +24,7 @@
 
 import Editor from '@/components/Editor/Editor'
 import Toolbar from '@/components/Toolbar/Toolbar'
+import { redirect } from 'next/dist/server/api-utils'
 import Head from 'next/head'
 import { createContext, useEffect, useRef, useState } from 'react'
 import { io } from 'socket.io-client'
@@ -89,7 +90,7 @@ export default function Home() {
 
   return (
     <>
-      
+
       <socketContext.Provider value={socket.current}>
         <editorsContext.Provider value={{ braille, setBraille, text, setText, lineLimit, setLineLimit }}>
           <shortcutContext.Provider value={{ textEditorFocus, setTextEditorFocus, brailleEditorFocus, setBrailleEditorFocus, translateRef }}>
@@ -101,4 +102,24 @@ export default function Home() {
       </socketContext.Provider>
     </>
   )
+}
+
+
+export async function getServerSideProps({req,res}) {
+  var session = req.isAuthenticated()
+  
+  
+  if (!session) {
+    return{
+      redirect:{
+        destination:'/login'
+      }
+    }
+  }
+  var user=req.user
+  return {
+    props: {
+      session: user
+    }
+  }
 }
