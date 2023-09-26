@@ -55,11 +55,13 @@ app.prepare().then(() => {
     server.use(express.json({ limit: '50mb' }));
     server.use(fileUpload())
 
-    server.use(session({
+    const sessionMiddleware = session({
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
-    }))
+    })
+
+    server.use(sessionMiddleware)
 
     server.use(passport.initialize())
     server.use(passport.session())
@@ -92,10 +94,22 @@ app.prepare().then(() => {
         maxHttpBufferSize: 1e8
     });
 
-
+    io.engine.use(sessionMiddleware);
+    io.use((socket, next) => {
+        const session = socket.request.session;
+        console.log("session checked");
+        if(session.passport){
+            next();
+        }
+    })
     io.on('connection', (socket) => {
         console.log("new client connected");
-
+        // const session = socket.request.session; 
+        // console.log(session.passport);
+        // if(!session.passport){
+        //     console.log("no session"); 
+        //     socket.disconnect(); 
+        // }
         socket.on('translate', (data, ack) => {
             ack()
             //console.log(data);
