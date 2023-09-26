@@ -27,8 +27,9 @@ import React from 'react'
 import Logo from '../Logo/Logo'
 import styles from '../../styles/Header.module.css'
 import Link from 'next/link'
+import DropDown from '../DropDown/DropDown'
 
-function Header() {
+function Header({name}) {
   return (
     <>
       <div className={styles.headerbox}>
@@ -37,6 +38,7 @@ function Header() {
           <div className={`col-6 ${styles.headerNav} pe-5`}>
             <Link href='/'> Home</Link>
             <Link href='/about'>About</Link>
+            <DropDown name={name}/>
           </div>
         </div>
       </div>
