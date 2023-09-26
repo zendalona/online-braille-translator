@@ -8,3 +8,21 @@ function login() {
 }
 
 export default login
+
+export async function getServerSideProps({req,res}) {
+    var session = req.isAuthenticated()
+    
+    
+    if (session) {
+      return{
+        redirect:{
+          destination:'/'
+        }
+      }
+    }
+   return{
+    props:{
+        
+    }
+   }
+  }
