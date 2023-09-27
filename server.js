@@ -31,7 +31,9 @@ const { textToBraille } = require('./helpers/translate');
 const { Node } = require('slate');
 const path = require('path');
 const fs = require('fs');
-
+const passport = require('passport')
+const session = require('express-session')
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var fileUpload = require('express-fileupload');
 
 
@@ -52,21 +54,68 @@ app.prepare().then(() => {
 
     server.use(express.json({ limit: '50mb' }));
     server.use(fileUpload())
+
+    const sessionMiddleware = session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: true,
+    })
+
+    server.use(sessionMiddleware)
+
+    server.use(passport.initialize())
+    server.use(passport.session())
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: `${process.env.BASE_URL}/auth/google/callback`
+    },
+        function (accessToken, refreshToken, profile, cb) {
+            //console.log(profile);
+            var user = {
+                id: profile.id,
+                name: profile.displayName,
+                provider: profile.provider
+            }
+            return cb(null, user);
+
+        }
+    ));
+
+    passport.serializeUser((userObj, done) => {
+        done(null, userObj)
+    })
+    passport.deserializeUser((userObj, done) => {
+        done(null, userObj)
+    })
+
     const httpServer = http.createServer(server);
     const io = socketIO(httpServer, {
         maxHttpBufferSize: 1e8
     });
 
-
+    io.engine.use(sessionMiddleware);
+    io.use((socket, next) => {
+        const session = socket.request.session;
+        console.log("session checked");
+        if(session.passport){
+            next();
+        }
+    })
     io.on('connection', (socket) => {
         console.log("new client connected");
-
+        // const session = socket.request.session; 
+        // console.log(session.passport);
+        // if(!session.passport){
+        //     console.log("no session"); 
+        //     socket.disconnect(); 
+        // }
         socket.on('translate', (data, ack) => {
             ack()
-            console.log(data);
+            //console.log(data);
             textToBraille(data).then((brailleText) => {
-                console.log("resolve called");
-                socket.emit('result', brailleText)  
+                //console.log("resolve called");
+                socket.emit('result', brailleText)
             })
 
         })
@@ -78,12 +127,22 @@ app.prepare().then(() => {
 
 
 
+    const sessionCheck=(req,res,next)=>{
+        if(req.isAuthenticated()){
+            next();
+        }
+        else{
+            console.log("not authenticated");
+            res.redirect('/login');
+        }
+    }
+
     //server.use(bodyParser.json());
 
 
 
-    server.post('/api/upload', (req, res) => {
-        console.log(req.files.file);
+    server.post('/api/upload',sessionCheck, (req, res) => {
+        //console.log(req.files.file);
         if (!req.files || !req.files.file) {
             console.log("no file");
         }
@@ -94,6 +153,26 @@ app.prepare().then(() => {
 
 
         }
+
+    })
+    server.get('/auth/google',
+        passport.authenticate('google', { scope: ['profile'] }));
+
+    server.get('/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        function (req, res) {
+            // Successful authentication, redirect home.
+            res.redirect('/');
+        });
+
+
+    server.get("/logout" ,sessionCheck, (req, res) => {
+        req.logOut(function (err) {
+            if (err) { return next(err); }
+            res.redirect('/login');
+            //console.log(req.user)
+        })
+
 
     })
 

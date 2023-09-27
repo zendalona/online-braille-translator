@@ -1,0 +1,13 @@
+.signin_btn {
+    /*width: 275px;*/
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .auth_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+  }

@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }) {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/icon-192x192.png" />
     </Head>
-    <Header />
+    <Header name={pageProps.session?pageProps.session.name:null} />
     <Component {...pageProps} />
   </>
 }
